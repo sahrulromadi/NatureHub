@@ -1,0 +1,2 @@
+bug :
+- delete, force delete, restore untuk article yang sudah di hapus

@@ -17,19 +17,6 @@ class ListArticles extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->mutateFormDataUsing(function (array $data): array {
-                    $data['user_id'] = Auth::id();
-
-                    return $data;
-                })
-                ->successNotification(function (Article $record) {
-                    $title = $record->title;
-                    Notification::make()
-                        ->success()
-                        ->title('Article Created')
-                        ->body("The article titled '{$title}' has been created successfully.")
-                        ->send();
-                })
         ];
     }
 }
