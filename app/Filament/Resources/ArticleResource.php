@@ -46,6 +46,8 @@ class ArticleResource extends Resource
         return $form
             ->schema([
                 Section::make()
+                    ->description('Create your article here!')
+                    ->icon('heroicon-o-arrow-long-down')
                     ->schema([
                         TextInput::make('title')
                             ->required()

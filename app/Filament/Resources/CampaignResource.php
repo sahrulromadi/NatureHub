@@ -11,7 +11,9 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Tabs;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -38,51 +40,67 @@ class CampaignResource extends Resource
 {
     protected static ?string $model = Campaign::class;
 
-    protected static ?string $navigationIcon = 'heroicon-c-exclamation-circle';
+    protected static ?string $navigationIcon = 'heroicon-o-globe-asia-australia';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(function (Set $set, ?string $state) {
-                        $slug = Str::slug($state);
-                        $baseSlug = $slug;
-                        $count = 1;
+                Tabs::make('Tabs')
+                    ->tabs([
+                        Tab::make('Tab 1')
+                            ->icon('heroicon-m-pencil')
+                            ->schema([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(function (Set $set, ?string $state) {
+                                        $slug = Str::slug($state);
+                                        $baseSlug = $slug;
+                                        $count = 1;
 
-                        while (Campaign::where('slug', $slug)->exists()) {
-                            $slug = $baseSlug . '-' . $count;
-                            $count++;
-                        }
+                                        while (Campaign::where('slug', $slug)->exists()) {
+                                            $slug = $baseSlug . '-' . $count;
+                                            $count++;
+                                        }
 
-                        $set('slug', $slug);
-                    }),
-                TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255)
-                    ->readOnly(),
-                RichEditor::make('content')
-                    ->required()
+                                        $set('slug', $slug);
+                                    }),
+                                TextInput::make('slug')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->readOnly()
+                                    ->columnSpan(1),
+                                RichEditor::make('summary')
+                                    ->required()
+                                    ->columnSpanFull()
+                                    ->disableToolbarButtons([
+                                        'attachFiles',
+                                        'codeBlock',
+                                    ]),
+                            ])
+                            ->columns(2),
+                        Tab::make('Tab 2')
+                            ->icon('heroicon-c-photo')
+                            ->schema([
+                                FileUpload::make('image')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->openable()
+                                    ->directory('images')
+                                    ->columnSpan(1)
+                                    ->imagePreviewHeight('250'),
+                                RichEditor::make('content')
+                                    ->required()
+                                    ->columnSpanFull()
+                                    ->disableToolbarButtons([
+                                        'attachFiles',
+                                        'codeBlock',
+                                    ]),
+                            ]),
+                    ])
                     ->columnSpanFull()
-                    ->disableToolbarButtons([
-                        'attachFiles',
-                        'codeBlock',
-                    ]),
-                RichEditor::make('summary')
-                    ->required()
-                    ->columnSpanFull()
-                    ->disableToolbarButtons([
-                        'attachFiles',
-                        'codeBlock',
-                    ]),
-                FileUpload::make('image')
-                    ->image()
-                    ->imageEditor()
-                    ->openable()
-                    ->directory('images'),
             ]);
     }
 
