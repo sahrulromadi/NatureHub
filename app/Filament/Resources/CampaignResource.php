@@ -4,15 +4,14 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Article;
 use Filament\Forms\Set;
+use App\Models\Campaign;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\Section;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -30,64 +29,61 @@ use Filament\Infolists\Components\ImageEntry;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\RestoreBulkAction;
-use App\Filament\Resources\ArticleResource\Pages;
+use App\Filament\Resources\CampaignResource\Pages;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ArticleResource\RelationManagers;
+use App\Filament\Resources\CampaignResource\RelationManagers;
 
-class ArticleResource extends Resource
+class CampaignResource extends Resource
 {
-    protected static ?string $model = Article::class;
+    protected static ?string $model = Campaign::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+    protected static ?string $navigationIcon = 'heroicon-c-exclamation-circle';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make()
-                    ->schema([
-                        TextInput::make('title')
-                            ->required()
-                            ->maxLength(255)
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function (Set $set, ?string $state) {
-                                $slug = Str::slug($state);
-                                $baseSlug = $slug;
-                                $count = 1;
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255)
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function (Set $set, ?string $state) {
+                        $slug = Str::slug($state);
+                        $baseSlug = $slug;
+                        $count = 1;
 
-                                while (Article::where('slug', $slug)->exists()) {
-                                    $slug = $baseSlug . '-' . $count;
-                                    $count++;
-                                }
+                        while (Campaign::where('slug', $slug)->exists()) {
+                            $slug = $baseSlug . '-' . $count;
+                            $count++;
+                        }
 
-                                $set('slug', $slug);
-                            }),
-                        RichEditor::make('body')
-                            ->required()
-                            ->columnSpanFull()
-                            ->disableToolbarButtons([
-                                'attachFiles',
-                                'codeBlock',
-                            ]),
-                    ])
-                    ->columnSpan(2),
-
-                Section::make()
-                    ->schema([
-                        TextInput::make('slug')
-                            ->required()
-                            ->maxLength(255)
-                            ->readOnly(),
-                        FileUpload::make('image')
-                            ->image()
-                            ->imageEditor()
-                            ->openable()
-                            ->directory('images'),
-                    ])
-                    ->columnSpan(1),
-            ])
-            ->columns(3);
+                        $set('slug', $slug);
+                    }),
+                TextInput::make('slug')
+                    ->required()
+                    ->maxLength(255)
+                    ->readOnly(),
+                RichEditor::make('content')
+                    ->required()
+                    ->columnSpanFull()
+                    ->disableToolbarButtons([
+                        'attachFiles',
+                        'codeBlock',
+                    ]),
+                RichEditor::make('summary')
+                    ->required()
+                    ->columnSpanFull()
+                    ->disableToolbarButtons([
+                        'attachFiles',
+                        'codeBlock',
+                    ]),
+                FileUpload::make('image')
+                    ->image()
+                    ->imageEditor()
+                    ->openable()
+                    ->directory('images'),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -98,9 +94,12 @@ class ArticleResource extends Resource
                 $query->where('user_id', $userId);
             })
             ->columns([
-                TextColumn::make('title')
+                TextColumn::make('name')
                     ->searchable()
                     ->wrap(),
+                TextColumn::make('summary')
+                    ->wrap()
+                    ->html(),
                 ImageColumn::make('image'),
                 TextColumn::make('author.name')
                     ->label('Author')
@@ -142,29 +141,29 @@ class ArticleResource extends Resource
     {
         return $infolist
             ->schema([
-                TextEntry::make('title'),
+                TextEntry::make('name'),
                 ImageEntry::make('image'),
-                TextEntry::make('body')
+                TextEntry::make('content')
+                    ->html(),
+                TextEntry::make('summary')
                     ->html(),
                 TextEntry::make('author.name'),
                 TextEntry::make('created_at'),
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListArticles::route('/'),
-            'create' => Pages\CreateArticle::route('/create'),
-            'view' => Pages\ViewArticle::route('/{record}'),
-            'edit' => Pages\EditArticle::route('/{record}/edit'),
+            'index' => Pages\ManageCampaigns::route('/'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
