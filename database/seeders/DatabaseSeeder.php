@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Article;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\RolePermissionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,13 +16,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        $this->call([
+            RolePermissionSeeder::class
+        ]);
 
-        // User::factory()->create([
-        //     'name' => 'Admin',
-        //     'email' => 'admin@gmail.com',
-        //     'slug' => 'admin',
-        //     'password' => Hash::make('admin123')
-        // ]);
+        $admin = User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'slug' => 'admin',
+            'password' => Hash::make('admin123')
+        ]);
+        $admin->assignRole('super admin');
+
+        Article::factory(50)
+            ->recycle(User::factory(10)->create())
+            ->create();
     }
 }

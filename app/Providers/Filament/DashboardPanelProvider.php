@@ -83,11 +83,13 @@ class DashboardPanelProvider extends PanelProvider
                             NavigationItem::make('Roles')
                                 ->icon('heroicon-o-user-group')
                                 ->isActiveWhen(fn(): bool => request()->routeIs('filament.dashboard.resources.roles.*'))
-                                ->url(fn(): string => '/dashboard/roles'),
+                                ->url(fn(): string => '/dashboard/roles')
+                                ->visible(fn(): bool => auth()->user()->can('roles and permissions')),
                             NavigationItem::make('Permissions')
                                 ->icon('heroicon-o-lock-closed')
                                 ->isActiveWhen(fn(): bool => request()->routeIs('filament.dashboard.resources.permissions.*'))
-                                ->url(fn(): string => '/dashboard/permissions'),
+                                ->url(fn(): string => '/dashboard/permissions')
+                                ->visible(fn(): bool => auth()->user()->can('roles and permissions')),
                         ]),
                 ]);
             });

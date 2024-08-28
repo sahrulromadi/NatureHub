@@ -3,3 +3,6 @@ bug :
 - percantik view article, campaign 
 - text center table sekaligus
 - di url masih belum pake slug
+- profile dan hilangkan create user
+- rapihin roles dan permission
+- manage users

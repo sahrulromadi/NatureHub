@@ -41,6 +41,12 @@ class ArticleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = Auth::user();
+        return $user && $user->can('view articles');
+    }
+
     public static function form(Form $form): Form
     {
         return $form

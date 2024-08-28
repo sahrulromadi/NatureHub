@@ -42,6 +42,12 @@ class CampaignResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-globe-asia-australia';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = Auth::user();
+        return $user && $user->can('manage campaigns');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
