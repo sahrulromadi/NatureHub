@@ -2,3 +2,4 @@ bug :
 - delete, force delete, restore untuk article yang sudah di hapus
 - percantik view article, campaign 
 - text center table sekaligus
+- di url masih belum pake slug

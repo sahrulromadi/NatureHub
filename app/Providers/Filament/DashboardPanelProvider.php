@@ -9,6 +9,7 @@ use Filament\PanelProvider;
 use Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
 use Filament\Navigation\NavigationItem;
+use App\Filament\Resources\UserResource;
 use Filament\Navigation\NavigationGroup;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Navigation\NavigationBuilder;
@@ -78,12 +79,12 @@ class DashboardPanelProvider extends PanelProvider
                         ]),
                     NavigationGroup::make('Setting')
                         ->items([
-                            NavigationItem::make('Role')
+                            ...UserResource::getNavigationItems(),
+                            NavigationItem::make('Roles')
                                 ->icon('heroicon-o-user-group')
                                 ->isActiveWhen(fn(): bool => request()->routeIs('filament.dashboard.resources.roles.*'))
                                 ->url(fn(): string => '/dashboard/roles'),
-
-                            NavigationItem::make('Permission')
+                            NavigationItem::make('Permissions')
                                 ->icon('heroicon-o-lock-closed')
                                 ->isActiveWhen(fn(): bool => request()->routeIs('filament.dashboard.resources.permissions.*'))
                                 ->url(fn(): string => '/dashboard/permissions'),
