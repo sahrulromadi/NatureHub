@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class UserOberserver
 {
@@ -19,7 +20,13 @@ class UserOberserver
      */
     public function updated(User $user): void
     {
-        //
+        if ($user->isDirty('image')) {
+            $oldImage = $user->getOriginal('image');
+
+            if ($oldImage != null) {
+                Storage::disk('public')->delete($oldImage);
+            }
+        }
     }
 
     /**
@@ -43,6 +50,8 @@ class UserOberserver
      */
     public function forceDeleted(User $user): void
     {
-        //
+        if ($user->image != null) {
+            Storage::disk('public')->delete($user->image);
+        }
     }
 }

@@ -7,6 +7,7 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use App\Filament\Auth\CustomProfile;
 use App\Filament\Auth\CustomRegister;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
@@ -30,7 +31,7 @@ class DashboardPanelProvider extends PanelProvider
             ->path('dashboard')
             ->login()
             ->registration(CustomRegister::class)
-            ->profile()
+            ->profile(CustomProfile::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
