@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Filament\Auth;
+
+use App\Models\User;
+use Filament\Forms\Set;
+use Filament\Forms\Form;
+use Illuminate\Support\Str;
+use Filament\Pages\Auth\Register;
+use Filament\Forms\Components\TextInput;
+
+class CustomRegister extends Register
+{
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255)
+                    ->autofocus()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function (Set $set, ?string $state) {
+                        $slug = Str::slug($state);
+                        $baseSlug = $slug;
+                        $count = 1;
+
+                        while (User::where('slug', $slug)->exists()) {
+                            $slug = $baseSlug . '-' . $count;
+                            $count++;
+                        }
+
+                        $set('slug', $slug);
+                    }),
+                TextInput::make('slug')
+                    ->required()
+                    ->maxLength(255)
+                    ->readOnly(),
+                $this->getEmailFormComponent(),
+                $this->getPasswordFormComponent(),
+                $this->getPasswordConfirmationFormComponent(),
+            ]);
+    }
+}

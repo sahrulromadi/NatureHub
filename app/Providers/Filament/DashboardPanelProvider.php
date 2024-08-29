@@ -6,16 +6,9 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
-use Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
-use Illuminate\Support\Facades\Auth;
-use Filament\Navigation\NavigationItem;
-use App\Filament\Resources\UserResource;
-use Filament\Navigation\NavigationGroup;
+use App\Filament\Auth\CustomRegister;
 use Filament\Http\Middleware\Authenticate;
-use Filament\Navigation\NavigationBuilder;
-use App\Filament\Resources\ArticleResource;
-use App\Filament\Resources\CampaignResource;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -36,6 +29,8 @@ class DashboardPanelProvider extends PanelProvider
             ->id('dashboard')
             ->path('dashboard')
             ->login()
+            ->registration(CustomRegister::class)
+            ->profile()
             ->colors([
                 'primary' => Color::Amber,
             ])
