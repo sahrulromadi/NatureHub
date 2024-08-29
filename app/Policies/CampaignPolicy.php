@@ -14,8 +14,10 @@ class CampaignPolicy
      */
     public function viewAny(User $user): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('manage campaigns');
+        if ($user->hasPermissionTo('manage campaigns')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -23,8 +25,10 @@ class CampaignPolicy
      */
     public function view(User $user, Campaign $campaign): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('manage campaigns');
+        if ($user->hasPermissionTo('manage campaigns')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -32,8 +36,10 @@ class CampaignPolicy
      */
     public function create(User $user): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('manage campaigns');
+        if ($user->hasPermissionTo('manage campaigns')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -41,8 +47,10 @@ class CampaignPolicy
      */
     public function update(User $user, Campaign $campaign): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('manage campaigns');
+        if ($user->hasPermissionTo('manage campaigns')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -50,8 +58,10 @@ class CampaignPolicy
      */
     public function delete(User $user, Campaign $campaign): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('manage campaigns');
+        if ($user->hasPermissionTo('manage campaigns')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -59,8 +69,10 @@ class CampaignPolicy
      */
     public function restore(User $user, Campaign $campaign): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('manage campaigns');
+        if ($user->hasPermissionTo('manage campaigns')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -68,7 +80,9 @@ class CampaignPolicy
      */
     public function forceDelete(User $user, Campaign $campaign): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('manage campaigns');
+        if ($user->hasPermissionTo('manage campaigns')) {
+            return true;
+        }
+        return false;
     }
 }

@@ -28,8 +28,13 @@ class DatabaseSeeder extends Seeder
         ]);
         $admin->assignRole('super admin');
 
+        $writers = User::factory(10)->create();
+        foreach ($writers as $writer) {
+            $writer->assignRole('writer');
+        }
+
         Article::factory(50)
-            ->recycle(User::factory(10)->create())
+            ->recycle($writer)
             ->create();
     }
 }

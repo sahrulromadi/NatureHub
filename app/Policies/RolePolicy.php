@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Auth;
 
 class RolePolicy
 {
@@ -14,8 +13,10 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -23,8 +24,10 @@ class RolePolicy
      */
     public function view(User $user, Role $role): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -32,8 +35,10 @@ class RolePolicy
      */
     public function create(User $user): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -41,8 +46,10 @@ class RolePolicy
      */
     public function update(User $user, Role $role): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -50,8 +57,10 @@ class RolePolicy
      */
     public function delete(User $user, Role $role): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -59,8 +68,10 @@ class RolePolicy
      */
     public function restore(User $user, Role $role): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -68,7 +79,9 @@ class RolePolicy
      */
     public function forceDelete(User $user, Role $role): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 }

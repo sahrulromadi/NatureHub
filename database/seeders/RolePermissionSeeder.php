@@ -21,7 +21,6 @@ class RolePermissionSeeder extends Seeder
             'edit articles',
             'manage articles',
             'manage campaigns',
-            'roles and permissions'
         ];
 
         // Create permission
@@ -30,14 +29,7 @@ class RolePermissionSeeder extends Seeder
         }
 
         $roles = [
-            'super admin' => [
-                'view articles',
-                'create articles',
-                'edit articles',
-                'manage articles',
-                'manage campaigns',
-                'roles and permissions'
-            ],
+            'super admin' => [],
             'editor' => [
                 'view articles',
                 'create articles',

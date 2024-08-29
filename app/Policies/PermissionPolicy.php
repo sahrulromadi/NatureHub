@@ -14,8 +14,10 @@ class PermissionPolicy
      */
     public function viewAny(User $user): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -23,8 +25,10 @@ class PermissionPolicy
      */
     public function view(User $user, Permission $permission): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -32,8 +36,10 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -41,8 +47,10 @@ class PermissionPolicy
      */
     public function update(User $user, Permission $permission): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -50,8 +58,10 @@ class PermissionPolicy
      */
     public function delete(User $user, Permission $permission): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -59,8 +69,10 @@ class PermissionPolicy
      */
     public function restore(User $user, Permission $permission): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -68,7 +80,9 @@ class PermissionPolicy
      */
     public function forceDelete(User $user, Permission $permission): bool
     {
-        $user = Auth::user();
-        return $user && $user->can('roles and permissions');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return false;
     }
 }

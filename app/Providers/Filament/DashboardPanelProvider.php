@@ -8,6 +8,7 @@ use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\Auth;
 use Filament\Navigation\NavigationItem;
 use App\Filament\Resources\UserResource;
 use Filament\Navigation\NavigationGroup;
@@ -63,35 +64,10 @@ class DashboardPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
-            ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
-                return $builder->groups([
-                    NavigationGroup::make()
-                        ->items([
-                            NavigationItem::make('Dashboard')
-                                ->icon('heroicon-o-home')
-                                ->isActiveWhen(fn(): bool => request()->routeIs('filament.dashboard.pages.dashboard'))
-                                ->url(fn(): string => Dashboard::getUrl()),
-                        ]),
-                    NavigationGroup::make('Content')
-                        ->items([
-                            ...ArticleResource::getNavigationItems(),
-                            ...CampaignResource::getNavigationItems(),
-                        ]),
-                    NavigationGroup::make('Setting')
-                        ->items([
-                            ...UserResource::getNavigationItems(),
-                            NavigationItem::make('Roles')
-                                ->icon('heroicon-o-user-group')
-                                ->isActiveWhen(fn(): bool => request()->routeIs('filament.dashboard.resources.roles.*'))
-                                ->url(fn(): string => '/dashboard/roles')
-                                ->visible(fn(): bool => auth()->user()->can('roles and permissions')),
-                            NavigationItem::make('Permissions')
-                                ->icon('heroicon-o-lock-closed')
-                                ->isActiveWhen(fn(): bool => request()->routeIs('filament.dashboard.resources.permissions.*'))
-                                ->url(fn(): string => '/dashboard/permissions')
-                                ->visible(fn(): bool => auth()->user()->can('roles and permissions')),
-                        ]),
-                ]);
-            });
+            ->navigationGroups([
+                'Content',
+                'Settings',
+                'Others'
+            ]);
     }
 }

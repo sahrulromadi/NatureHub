@@ -39,14 +39,8 @@ use App\Filament\Resources\CampaignResource\RelationManagers;
 class CampaignResource extends Resource
 {
     protected static ?string $model = Campaign::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-globe-asia-australia';
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        $user = Auth::user();
-        return $user && $user->can('manage campaigns');
-    }
+    protected static ?string $navigationGroup = 'Content';
 
     public static function form(Form $form): Form
     {
