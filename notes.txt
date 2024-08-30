@@ -7,3 +7,8 @@ bug :
 - rapihin roles dan permission
 - manage users
 - bagaimana menyembunyikan navigasi nya tanpa error
+
+abis ini:
+- menambahkan persetujuan
+- permission dan role untuk editor dan writer
+- benerin layout
