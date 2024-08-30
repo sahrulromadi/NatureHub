@@ -16,11 +16,11 @@ class RolePermissionSeeder extends Seeder
     {
         // Deklarasi permissions
         $permissions = [
-            'view articles',
-            'create articles',
-            'edit articles',
-            'manage articles',
-            'manage campaigns',
+            'View Articles',
+            'Create Articles',
+            'Edit Articles',
+            'Manage Articles',
+            'Manage Camapaigns',
         ];
 
         // Create permission
@@ -29,16 +29,16 @@ class RolePermissionSeeder extends Seeder
         }
 
         $roles = [
-            'super admin' => [],
-            'editor' => [
-                'view articles',
-                'create articles',
-                'edit articles'
+            'Super Admin' => [],
+            'Editor' => [
+                'View Articles',
+                'Create Articles',
+                'Edit Articles'
             ],
-            'writer' => [
-                'view articles',
-                'create articles',
-                'edit articles'
+            'Writer' => [
+                'View Articles',
+                'Create Articles',
+                'Edit Articles'
             ],
         ];
 

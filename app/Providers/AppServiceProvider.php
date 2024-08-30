@@ -30,8 +30,8 @@ class AppServiceProvider extends ServiceProvider
         Campaign::observe(CampaignObserver::class);
         User::observe(UserOberserver::class);
 
-        Gate::before(function ($user, $ability) {
-            return $user->hasRole('super admin') ? true : null;
+        Gate::before(function (User $user, string $ability) {
+            return $user->isSuperAdmin() ? true : null;
         });
     }
 }

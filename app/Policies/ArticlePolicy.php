@@ -9,20 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ArticlePolicy
 {
-    public function canViewAny(User $user): bool
-    {
-        if ($user->hasPermissionTo('manage articles')) {
-            return true;
-        }
-        return false;
-    }
-
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasPermissionTo('manage articles')) {
+        if ($user->can('View Articles')) {
             return true;
         }
         return false;
@@ -33,7 +25,7 @@ class ArticlePolicy
      */
     public function view(User $user, Article $article): bool
     {
-        if ($user->hasPermissionTo('view articles')) {
+        if ($user->can('View Articles')) {
             return true;
         }
         return false;
@@ -44,7 +36,7 @@ class ArticlePolicy
      */
     public function create(User $user): bool
     {
-        if ($user->hasPermissionTo('create articles')) {
+        if ($user->can('Create Articles')) {
             return true;
         }
         return false;
@@ -55,7 +47,7 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
-        if ($user->hasPermissionTo('edit articles')) {
+        if ($user->can('Edit Articles')) {
             return true;
         }
         return false;
@@ -66,7 +58,7 @@ class ArticlePolicy
      */
     public function delete(User $user, Article $article): bool
     {
-        if ($user->hasPermissionTo('manage articles')) {
+        if ($user->can('Manage Articles')) {
             return true;
         }
         return false;
@@ -77,7 +69,7 @@ class ArticlePolicy
      */
     public function restore(User $user, Article $article): bool
     {
-        if ($user->hasPermissionTo('manage articles')) {
+        if ($user->can('Manage Articles')) {
             return true;
         }
         return false;
@@ -88,7 +80,7 @@ class ArticlePolicy
      */
     public function forceDelete(User $user, Article $article): bool
     {
-        if ($user->hasPermissionTo('manage articles')) {
+        if ($user->can('Manage Articles')) {
             return true;
         }
         return false;

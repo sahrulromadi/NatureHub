@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
 use App\Models\Article;
 use Filament\Forms\Set;
@@ -96,8 +97,12 @@ class ArticleResource extends Resource
     {
         return $table
             ->modifyQueryUsing(function (Builder $query) {
-                $userId = Auth::id();
-                $query->where('user_id', $userId);
+                $user = User::find(Auth::id());
+                if ($user->hasRole('Writer')) {
+                    $query->where('user_id', $user->id);
+                } elseif ($user->hasRole('Editor')) {
+                    $query->where('status', 'draft');
+                }
             })
             ->columns([
                 TextColumn::make('title')

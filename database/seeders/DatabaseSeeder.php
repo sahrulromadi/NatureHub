@@ -26,11 +26,11 @@ class DatabaseSeeder extends Seeder
             'slug' => 'admin',
             'password' => Hash::make('admin123')
         ]);
-        $admin->assignRole('super admin');
+        $admin->assignRole('Super Admin');
 
         $writers = User::factory(10)->create();
         foreach ($writers as $writer) {
-            $writer->assignRole('writer');
+            $writer->assignRole('Writer');
         }
 
         Article::factory(50)

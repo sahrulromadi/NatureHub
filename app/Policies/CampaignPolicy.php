@@ -14,7 +14,7 @@ class CampaignPolicy
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasPermissionTo('manage campaigns')) {
+        if ($user->can('Manage Camapaigns')) {
             return true;
         }
         return false;
@@ -25,7 +25,7 @@ class CampaignPolicy
      */
     public function view(User $user, Campaign $campaign): bool
     {
-        if ($user->hasPermissionTo('manage campaigns')) {
+        if ($user->can('Manage Camapaigns')) {
             return true;
         }
         return false;
@@ -36,7 +36,7 @@ class CampaignPolicy
      */
     public function create(User $user): bool
     {
-        if ($user->hasPermissionTo('manage campaigns')) {
+        if ($user->can('Manage Camapaigns')) {
             return true;
         }
         return false;
@@ -47,7 +47,7 @@ class CampaignPolicy
      */
     public function update(User $user, Campaign $campaign): bool
     {
-        if ($user->hasPermissionTo('manage campaigns')) {
+        if ($user->can('Manage Camapaigns')) {
             return true;
         }
         return false;
@@ -58,7 +58,7 @@ class CampaignPolicy
      */
     public function delete(User $user, Campaign $campaign): bool
     {
-        if ($user->hasPermissionTo('manage campaigns')) {
+        if ($user->can('Manage Camapaigns')) {
             return true;
         }
         return false;
@@ -69,7 +69,7 @@ class CampaignPolicy
      */
     public function restore(User $user, Campaign $campaign): bool
     {
-        if ($user->hasPermissionTo('manage campaigns')) {
+        if ($user->can('Manage Camapaigns')) {
             return true;
         }
         return false;
@@ -80,7 +80,7 @@ class CampaignPolicy
      */
     public function forceDelete(User $user, Campaign $campaign): bool
     {
-        if ($user->hasPermissionTo('manage campaigns')) {
+        if ($user->can('Manage Camapaigns')) {
             return true;
         }
         return false;
