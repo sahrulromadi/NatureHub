@@ -8,11 +8,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use Althinect\FilamentSpatieRolesPermissions\Concerns\HasSuperAdmin;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Filament\Models\Contracts\HasAvatar;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasAvatar
 {
     use HasFactory, Notifiable, HasRoles, SoftDeletes, HasSuperAdmin;
 
@@ -61,5 +60,13 @@ class User extends Authenticatable
             } else
                 $user->assignRole('Writer');
         });
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+        return asset('img/defaultAva.jpeg');
     }
 }

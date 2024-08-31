@@ -10,7 +10,6 @@
         -webkit-background-clip: text;
         color: transparent;
         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2), 4px 4px 8px rgba(0, 0, 0, 0.15);
-        letter-spacing: 0.15em;
         text-transform: uppercase;
         animation: glowing 6s infinite alternate;
         position: relative;
