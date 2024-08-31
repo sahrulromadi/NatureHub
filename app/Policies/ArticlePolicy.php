@@ -48,7 +48,9 @@ class ArticlePolicy
     public function update(User $user, Article $article): bool
     {
         if ($user->can('Edit Articles')) {
-            return true;
+            if ($article->status !== 'Published') {
+                return true;
+            }
         }
         return false;
     }

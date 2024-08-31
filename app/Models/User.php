@@ -26,7 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'slug',
-        'image'
+        'image',
     ];
 
     /**
@@ -56,7 +56,10 @@ class User extends Authenticatable
     protected static function booted(): void
     {
         static::creating(function (User $user) {
-            $user->assignRole('Writer');
+            if ($user->email === 'admin@gmail.com') {
+                $user->assignRole('Super Admin');
+            } else
+                $user->assignRole('Writer');
         });
     }
 }

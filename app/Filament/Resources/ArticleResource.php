@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
@@ -74,7 +75,8 @@ class ArticleResource extends Resource
                                 'codeBlock',
                             ]),
                     ])
-                    ->columnSpan(2),
+                    ->columnSpan(2)
+                    ->visible(fn() => !User::find(Auth::id())->hasRole('Editor')),
 
                 Section::make()
                     ->schema([
@@ -88,6 +90,18 @@ class ArticleResource extends Resource
                             ->openable()
                             ->directory('images'),
                     ])
+                    ->columnSpan(1)
+                    ->visible(fn() => !User::find(Auth::id())->hasRole('Editor')),
+
+                Section::make()
+                    ->schema([
+                        Select::make('status')
+                            ->options([
+                                'Published' => 'Accepted',
+                                'Rejected' => 'Rejected',
+                            ]),
+                    ])
+                    ->visible(fn() => !User::find(Auth::id())->hasRole('Writer'))
                     ->columnSpan(1),
             ])
             ->columns(3);
@@ -101,18 +115,27 @@ class ArticleResource extends Resource
                 if ($user->hasRole('Writer')) {
                     $query->where('user_id', $user->id);
                 } elseif ($user->hasRole('Editor')) {
-                    $query->where('status', 'draft');
+                    $query->where('status', 'Reviewing');
                 }
             })
             ->columns([
                 TextColumn::make('title')
                     ->searchable()
+                    ->sortable()
                     ->wrap(),
                 ImageColumn::make('image'),
                 TextColumn::make('author.name')
                     ->label('Author')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('status')
+                    ->badge()
+                    ->sortable()
+                    ->color(fn(string $state): string => match ($state) {
+                        'Reviewing' => 'warning',
+                        'Published' => 'success',
+                        'Rejected' => 'danger',
+                    }),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -131,7 +154,11 @@ class ArticleResource extends Resource
             ])
             ->actions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()
+                    ->hidden(
+                        fn(Article $record) =>
+                        $record->status === 'Published' && !User::find(Auth::id())->hasRole('Super Admin')
+                    ),
                 DeleteAction::make(),
                 ForceDeleteAction::make(),
                 RestoreAction::make(),

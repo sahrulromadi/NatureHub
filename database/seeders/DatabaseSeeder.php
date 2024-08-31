@@ -20,21 +20,17 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class
         ]);
 
-        $admin = User::factory()->create([
+        User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'slug' => 'admin',
             'password' => Hash::make('admin123')
         ]);
-        $admin->assignRole('Super Admin');
-
-        $writers = User::factory(10)->create();
-        foreach ($writers as $writer) {
-            $writer->assignRole('Writer');
-        }
 
         Article::factory(50)
-            ->recycle($writer)
+            ->recycle(
+                User::factory(10)->create()
+            )
             ->create();
     }
 }
