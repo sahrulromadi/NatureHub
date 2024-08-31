@@ -42,8 +42,7 @@ class DashboardPanelProvider extends PanelProvider
             ])
             ->font('Inconsolata')
             ->favicon(asset('img/favicon.png'))
-            ->brandLogo(asset('img/logo.png'))
-            ->brandLogoHeight('3rem')
+            ->brandLogo(fn() => view('filament.dashboard.logo'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
