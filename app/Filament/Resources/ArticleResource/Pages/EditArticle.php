@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\ArticleResource\Pages;
 
-use App\Filament\Resources\ArticleResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\ArticleResource;
 
 class EditArticle extends EditRecord
 {
@@ -15,5 +16,20 @@ class EditArticle extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
+    protected function getSavedNotification(): ?Notification
+    {
+        $title = $this->record->title;
+
+        return Notification::make()
+            ->success()
+            ->title('Article Updated')
+            ->body("The article titled '{$title}' has been updated successfully.");
     }
 }

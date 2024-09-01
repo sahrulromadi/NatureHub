@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Grid;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
@@ -19,10 +20,12 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Filters\TrashedFilter;
@@ -47,64 +50,58 @@ class ArticleResource extends Resource
     {
         return $form
             ->schema([
-                Section::make()
-                    ->description('Create your article here!')
-                    ->icon('heroicon-o-arrow-long-down')
+                Grid::make()
                     ->schema([
-                        TextInput::make('title')
-                            ->required()
-                            ->maxLength(255)
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function (Set $set, ?string $state) {
-                                $slug = Str::slug($state);
-                                $baseSlug = $slug;
-                                $count = 1;
+                        Section::make()
+                            ->description('Create your article here!')
+                            ->icon('heroicon-o-document-plus')
+                            ->schema([
+                                TextInput::make('title')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(function (Set $set, ?string $state) {
+                                        $slug = Str::slug($state);
+                                        $baseSlug = $slug;
+                                        $count = 1;
 
-                                while (Article::where('slug', $slug)->exists()) {
-                                    $slug = $baseSlug . '-' . $count;
-                                    $count++;
-                                }
+                                        while (Article::where('slug', $slug)->exists()) {
+                                            $slug = $baseSlug . '-' . $count;
+                                            $count++;
+                                        }
 
-                                $set('slug', $slug);
-                            }),
-                        RichEditor::make('body')
-                            ->required()
-                            ->columnSpanFull()
-                            ->disableToolbarButtons([
-                                'attachFiles',
-                                'codeBlock',
-                            ]),
-                    ])
-                    ->columnSpan(2)
-                    ->visible(fn() => !User::find(Auth::id())->hasRole('Editor')),
+                                        $set('slug', $slug);
+                                    }),
+                                RichEditor::make('body')
+                                    ->required()
+                                    ->columnSpanFull()
+                                    ->disableToolbarButtons([
+                                        'attachFiles',
+                                        'codeBlock',
+                                    ]),
+                            ])
+                            ->columnSpan(2),
 
-                Section::make()
-                    ->schema([
-                        TextInput::make('slug')
-                            ->required()
-                            ->maxLength(255)
-                            ->readOnly(),
-                        FileUpload::make('image')
-                            ->image()
-                            ->imageEditor()
-                            ->openable()
-                            ->directory('images'),
-                    ])
-                    ->columnSpan(1)
-                    ->visible(fn() => !User::find(Auth::id())->hasRole('Editor')),
+                        Section::make()
+                            ->schema([
+                                TextInput::make('slug')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->readOnly(),
+                            ])
+                            ->columnSpan(1),
 
-                Section::make()
-                    ->schema([
-                        Select::make('status')
-                            ->options([
-                                'Published' => 'Accepted',
-                                'Rejected' => 'Rejected',
-                            ]),
-                    ])
-                    ->visible(fn() => !User::find(Auth::id())->hasRole('Writer'))
-                    ->columnSpan(1),
-            ])
-            ->columns(3);
+                        Section::make()
+                            ->schema([
+                                FileUpload::make('image')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->openable()
+                                    ->directory('images'),
+                            ])
+                            ->columnSpan(1)
+                    ])->visible(fn() => !User::find(Auth::id())->hasRole('Editor'))
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -150,18 +147,28 @@ class ArticleResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('status')
+                    ->options([
+                        'Reviewing' => 'Reviewing',
+                        'Published' => 'Published',
+                        'Rejected' => 'Rejected',
+                    ]),
                 TrashedFilter::make(),
             ])
             ->actions([
-                ViewAction::make(),
-                EditAction::make()
-                    ->hidden(
-                        fn(Article $record) =>
-                        $record->status === 'Published' && !User::find(Auth::id())->hasRole('Super Admin')
-                    ),
-                DeleteAction::make(),
-                ForceDeleteAction::make(),
-                RestoreAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make()
+                        ->hidden(
+                            fn(Article $record) =>
+                            $record->status === 'Published' && !User::find(Auth::id())->hasRole('Super Admin')
+                        ),
+                    DeleteAction::make(),
+                    ForceDeleteAction::make(),
+                    RestoreAction::make()
+                ])
+                    ->button()
+                    ->label('Actions')
             ])
             ->bulkActions([
                 BulkActionGroup::make([

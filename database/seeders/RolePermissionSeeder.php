@@ -32,7 +32,6 @@ class RolePermissionSeeder extends Seeder
             'Super Admin' => [],
             'Editor' => [
                 'View Articles',
-                'Edit Articles'
             ],
             'Writer' => [
                 'View Articles',

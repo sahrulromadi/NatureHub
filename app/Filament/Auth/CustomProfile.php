@@ -4,7 +4,9 @@ namespace App\Filament\Auth;
 
 use App\Models\User;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Split;
 use Filament\Pages\Auth\EditProfile;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\FileUpload;
 
 class CustomProfile extends EditProfile
@@ -15,16 +17,27 @@ class CustomProfile extends EditProfile
     {
         return $form
             ->schema([
-                FileUpload::make('image')
-                    ->image()
-                    ->avatar()
-                    ->imageEditor()
-                    ->circleCropper()
-                    ->directory('images'),
-                $this->getNameFormComponent(),
-                $this->getEmailFormComponent(),
-                $this->getPasswordFormComponent(),
-                $this->getPasswordConfirmationFormComponent(),
+                Split::make([
+                    Section::make([
+                        FileUpload::make('image')
+                            ->label('')
+                            ->image()
+                            ->avatar()
+                            ->imageEditor()
+                            ->circleCropper()
+                            ->directory('images')
+                            ->extraAttributes([
+                                'style' => 'justify-content: center; align-items: center;'
+                            ])
+                    ]),
+
+                    Section::make([
+                        $this->getNameFormComponent(),
+                        $this->getEmailFormComponent(),
+                        $this->getPasswordFormComponent(),
+                        $this->getPasswordConfirmationFormComponent(),
+                    ])
+                ])
             ]);
     }
 }

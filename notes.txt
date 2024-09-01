@@ -1,13 +1,8 @@
 bug :
+- layout edit profile masih jelek dan tidak simetris 
+
 - delete, force delete, restore untuk article yang sudah di hapus
-- percantik view article, campaign 
-- text center table sekaligus
 - di url masih belum pake slug
-- profile dan hilangkan create user
-- rapihin roles dan permission
-- manage users
-- bagaimana menyembunyikan navigasi nya tanpa error
 
 abis ini:
-- menambahkan persetujuan
 - benerin layout
