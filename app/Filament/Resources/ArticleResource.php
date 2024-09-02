@@ -16,6 +16,7 @@ use Filament\Forms\Components\Grid;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
+use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -29,6 +30,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Filters\TrashedFilter;
+use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Infolists\Components\ImageEntry;
@@ -86,6 +88,7 @@ class ArticleResource extends Resource
                             ->schema([
                                 TextInput::make('slug')
                                     ->required()
+                                    ->placeholder('Auto generated')
                                     ->maxLength(255)
                                     ->readOnly(),
                             ])
@@ -134,15 +137,15 @@ class ArticleResource extends Resource
                         'Rejected' => 'danger',
                     }),
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
-                    ->dateTime()
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -183,12 +186,28 @@ class ArticleResource extends Resource
     {
         return $infolist
             ->schema([
-                TextEntry::make('title'),
-                ImageEntry::make('image'),
-                TextEntry::make('body')
-                    ->html(),
-                TextEntry::make('author.name'),
-                TextEntry::make('created_at'),
+                InfolistSection::make()
+                    ->description('Image')
+                    ->icon('heroicon-m-photo')
+                    ->schema([
+                        ImageEntry::make('image')
+                            ->label(false)
+                            ->defaultImageUrl(asset('img/logo.png'))
+                            ->columnSpanFull()
+                            ->size(300)
+                            ->extraAttributes([
+                                'style' => 'justify-content: center; align-items: center;',
+                            ])
+                    ])
+                    ->collapsed(),
+
+                InfolistSection::make()
+                    ->schema([
+                        TextEntry::make('')
+                            ->label(false)
+                            ->columnSpanFull()
+                            ->view('filament.infolists.entries.articleView'),
+                    ])
             ]);
     }
 

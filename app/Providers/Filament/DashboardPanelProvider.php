@@ -32,6 +32,7 @@ class DashboardPanelProvider extends PanelProvider
             ->login()
             ->registration(CustomRegister::class)
             ->profile(CustomProfile::class)
+            ->darkMode(true, true)
             ->colors([
                 'primary' => '#266634',
                 'danger' => Color::Rose,

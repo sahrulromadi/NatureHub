@@ -20,7 +20,7 @@ class CustomProfile extends EditProfile
                 Split::make([
                     Section::make([
                         FileUpload::make('image')
-                            ->label('')
+                            ->label(false)
                             ->image()
                             ->avatar()
                             ->imageEditor()
