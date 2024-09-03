@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Components\Split;
 use Filament\Pages\Auth\EditProfile;
 use Filament\Forms\Components\Section;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\FileUpload;
 
 class CustomProfile extends EditProfile

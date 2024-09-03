@@ -27,10 +27,10 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123')
         ]);
 
-        Article::factory(50)
-            ->recycle(
-                User::factory(10)->create()
-            )
-            ->create();
+        // Article::factory(50)
+        //     ->recycle(
+        //         User::factory(10)->create()
+        //     )
+        //     ->create();
     }
 }

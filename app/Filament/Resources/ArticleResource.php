@@ -14,13 +14,12 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
 use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
-use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
@@ -30,7 +29,6 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Infolists\Components\ImageEntry;
@@ -41,6 +39,7 @@ use App\Filament\Resources\ArticleResource\Pages;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ArticleResource\RelationManagers;
+use Filament\Infolists\Components\Section as InfolistSection;
 
 class ArticleResource extends Resource
 {
@@ -165,19 +164,73 @@ class ArticleResource extends Resource
                         ->hidden(
                             fn(Article $record) =>
                             $record->status === 'Published' && !User::find(Auth::id())->hasRole('Super Admin')
+                        )
+                        ->successNotification(
+                            function ($record) {
+                                return Notification::make()
+                                    ->success()
+                                    ->title('Article Updated')
+                                    ->body("The article titled '{$record->title}' has been updated successfully.")
+                                    ->send();
+                            }
                         ),
-                    DeleteAction::make(),
-                    ForceDeleteAction::make(),
+                    DeleteAction::make()
+                        ->successNotification(function ($record) {
+                            return Notification::make()
+                                ->success()
+                                ->title('Article deleted')
+                                ->body("'{$record->title}' transferred to trash");
+                        }),
+                    ForceDeleteAction::make()
+                        ->successNotification(function ($record) {
+                            return Notification::make()
+                                ->success()
+                                ->title('Article deleted')
+                                ->body("'{$record->title}' permanently deleted");
+                        }),
                     RestoreAction::make()
+                        ->successNotification(function ($record) {
+                            return Notification::make()
+                                ->success()
+                                ->title('Article restored')
+                                ->body("'{$record->title}' restored from trash");
+                        })
                 ])
                     ->button()
                     ->label('Actions')
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->successNotification(function ($records) {
+                            $count = $records->count();
+                            $titles = $records->pluck('title')->implode(', ');
+
+                            return Notification::make()
+                                ->success()
+                                ->title('Articles deleted')
+                                ->body("The following {$count} articles were transferred to trash: {$titles}");
+                        }),
+                    ForceDeleteBulkAction::make()
+                        ->successNotification(function ($records) {
+                            $count = $records->count();
+                            $titles = $records->pluck('title')->implode(', ');
+
+                            return Notification::make()
+                                ->success()
+                                ->title('Articles permanently deleted')
+                                ->body("The following {$count} articles were permanently deleted: {$titles}");
+                        }),
+                    RestoreBulkAction::make()
+                        ->successNotification(function ($records) {
+                            $count = $records->count();
+                            $titles = $records->pluck('title')->implode(', ');
+
+                            return Notification::make()
+                                ->success()
+                                ->title('Articles restored')
+                                ->body("The following {$count} articles were restored: {$titles}");
+                        }),
                 ]),
             ]);
     }
@@ -192,14 +245,14 @@ class ArticleResource extends Resource
                     ->schema([
                         ImageEntry::make('image')
                             ->label(false)
-                            ->defaultImageUrl(asset('img/logo.png'))
                             ->columnSpanFull()
                             ->size(300)
                             ->extraAttributes([
-                                'style' => 'justify-content: center; align-items: center;',
+                                'style' => 'justify-content: center; align-items: center;'
                             ])
                     ])
-                    ->collapsed(),
+                    ->collapsed()
+                    ->hidden(fn($record) => $record->image === null),
 
                 InfolistSection::make()
                     ->schema([

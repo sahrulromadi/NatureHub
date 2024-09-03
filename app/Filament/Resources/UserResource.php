@@ -7,17 +7,13 @@ use App\Models\User;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Filament\Facades\Filament;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Illuminate\Support\Facades\Hash;
-use Filament\Tables\Actions\ActionGroup;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
+use Filament\Tables\Filters\TrashedFilter;
 
 class UserResource extends Resource
 {
@@ -34,10 +30,8 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                // ??
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name')
-                    ->multiple()
                     ->preload(),
             ]);
     }
@@ -46,55 +40,100 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('roles.name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\Layout\Split::make([
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('name')
+                            ->searchable()
+                            ->weight('medium')
+                            ->alignCenter(),
+                        Tables\Columns\TextColumn::make('roles.name')
+                            ->searchable()
+                            ->color('gray')
+                            ->alignCenter()
+                    ]),
+                    Tables\Columns\TextColumn::make('email')
+                        ->icon('heroicon-s-envelope')
+                        ->searchable()
+                        ->alignCenter(),
+                    Tables\Columns\ImageColumn::make('image')
+                        ->circular()
+                        ->alignCenter(),
+                    Tables\Columns\TextColumn::make('created_at')
+                        ->dateTime('d/m/Y H:i')
+                        ->sortable()
+                        ->alignCenter(),
+                ]),
             ])
             ->filters([
-                //
+                TrashedFilter::make()
             ])
             ->actions([
-                ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\ForceDeleteAction::make(),
-                    Tables\Actions\RestoreAction::make()
-                ])
+                Tables\Actions\EditAction::make()
+                    ->successNotification(
+                        function ($record) {
+                            $roleName = $record->getRoleNames()->join(', ');
+
+                            return Notification::make()
+                                ->success()
+                                ->title('User role updated')
+                                ->body("'{$record->name}' has been updated to '{$roleName}'");
+                        }
+                    ),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(function ($record) {
+                        return Notification::make()
+                            ->success()
+                            ->title('User deleted')
+                            ->body("'{$record->name}' transferred to trash");
+                    }),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->successNotification(function ($record) {
+                        return Notification::make()
+                            ->success()
+                            ->title('User deleted')
+                            ->body("'{$record->name}' permanently deleted");
+                    }),
+                Tables\Actions\RestoreAction::make()
+                    ->successNotification(function ($record) {
+                        return Notification::make()
+                            ->success()
+                            ->title('User restored')
+                            ->body("'{$record->name}' restored from trash");
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
-            ]);
-    }
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(function ($records) {
+                            $count = $records->count();
+                            $names = $records->pluck('name')->implode(', ');
 
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                TextEntry::make('name'),
-                TextEntry::make('email'),
-                TextEntry::make('roles.name'),
-                ImageEntry::make('image'),
-                TextEntry::make('created_at'),
+                            return Notification::make()
+                                ->success()
+                                ->title('Users deleted')
+                                ->body("The following {$count} users were transferred to trash: {$names}");
+                        }),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(function ($records) {
+                            $count = $records->count();
+                            $names = $records->pluck('name')->implode(', ');
+
+                            return Notification::make()
+                                ->success()
+                                ->title('Users permanently deleted')
+                                ->body("The following {$count} users were permanently deleted: {$names}");
+                        }),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(function ($records) {
+                            $count = $records->count();
+                            $names = $records->pluck('name')->implode(', ');
+
+                            return Notification::make()
+                                ->success()
+                                ->title('Users restored')
+                                ->body("The following {$count} users were restored: {$names}");
+                        }),
+                ]),
             ]);
     }
 

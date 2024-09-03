@@ -18,14 +18,17 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\Section;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Filters\TrashedFilter;
+use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Infolists\Components\ImageEntry;
@@ -115,6 +118,7 @@ class CampaignResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
+                    ->sortable()
                     ->wrap(),
                 TextColumn::make('summary')
                     ->wrap()
@@ -143,17 +147,73 @@ class CampaignResource extends Resource
             ->actions([
                 ActionGroup::make([
                     ViewAction::make(),
-                    EditAction::make(),
-                    DeleteAction::make(),
-                    ForceDeleteAction::make(),
+                    EditAction::make()
+                        ->successNotification(
+                            function ($record) {
+                                return Notification::make()
+                                    ->success()
+                                    ->title('Campaign Updated')
+                                    ->body("The campaign titled '{$record->name}' has been updated successfully.")
+                                    ->send();
+                            }
+                        ),
+                    DeleteAction::make()
+                        ->successNotification(function ($record) {
+                            return Notification::make()
+                                ->success()
+                                ->title('Campaign deleted')
+                                ->body("'{$record->name}' transferred to trash");
+                        }),
+                    ForceDeleteAction::make()
+                        ->successNotification(function ($record) {
+                            return Notification::make()
+                                ->success()
+                                ->title('Campaign deleted')
+                                ->body("'{$record->name}' permanently deleted");
+                        }),
                     RestoreAction::make()
+                        ->successNotification(function ($record) {
+                            return Notification::make()
+                                ->success()
+                                ->title('Campaign restored')
+                                ->body("'{$record->name}' restored from trash");
+                        })
                 ])
+                    ->button()
+                    ->label('Actions')
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->successNotification(function ($records) {
+                            $count = $records->count();
+                            $names = $records->pluck('name')->implode(', ');
+
+                            return Notification::make()
+                                ->success()
+                                ->title('Campaigns deleted')
+                                ->body("The following {$count} campaigns were transferred to trash: {$names}");
+                        }),
+                    ForceDeleteBulkAction::make()
+                        ->successNotification(function ($records) {
+                            $count = $records->count();
+                            $names = $records->pluck('name')->implode(', ');
+
+                            return Notification::make()
+                                ->success()
+                                ->title('Campaigns permanently deleted')
+                                ->body("The following {$count} campaigns were permanently deleted: {$names}");
+                        }),
+                    RestoreBulkAction::make()
+                        ->successNotification(function ($records) {
+                            $count = $records->count();
+                            $names = $records->pluck('name')->implode(', ');
+
+                            return Notification::make()
+                                ->success()
+                                ->title('Campaigns restored')
+                                ->body("The following {$count} campaigns were restored: {$names}");
+                        }),
                 ]),
             ]);
     }
@@ -162,14 +222,30 @@ class CampaignResource extends Resource
     {
         return $infolist
             ->schema([
-                TextEntry::make('name'),
-                ImageEntry::make('image'),
-                TextEntry::make('content')
-                    ->html(),
-                TextEntry::make('summary')
-                    ->html(),
-                TextEntry::make('author.name'),
-                TextEntry::make('created_at'),
+                Section::make()
+                    ->description('Image')
+                    ->icon('heroicon-m-photo')
+                    ->schema([
+                        ImageEntry::make('image')
+                            ->label(false)
+                            ->defaultImageUrl(asset('img/logo.png'))
+                            ->columnSpanFull()
+                            ->size(300)
+                            ->extraAttributes([
+                                'style' => 'justify-content: center; align-items: center;'
+                            ])
+                    ])
+                    ->collapsed()
+                    ->hidden(fn($record) => $record->image === null),
+
+                Fieldset::make('Content')
+                    ->schema([
+                        TextEntry::make('')
+                            ->label(false)
+                            ->columnSpanFull()
+                            ->view('filament.infolists.entries.campaignView')
+                    ])
+
             ]);
     }
 
