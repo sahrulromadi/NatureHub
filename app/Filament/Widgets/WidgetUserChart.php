@@ -11,16 +11,16 @@ use Filament\Widgets\ChartWidget;
 class WidgetUserChart extends ChartWidget
 {
     protected static ?string $heading = 'Users Chart';
+    public ?string $filter = 'year';
 
     protected function getData(): array
     {
-        $data = Trend::model(User::class)
-            ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
-            )
-            ->perMonth()
-            ->count();
+        $data = match ($this->filter) {
+            'today' => $this->getDailyData(),
+            'week' => $this->getWeeklyData(),
+            'month' => $this->getMonthlyData(),
+            'year' => $this->getYearlyData(),
+        };
 
         return [
             'datasets' => [
@@ -38,5 +38,63 @@ class WidgetUserChart extends ChartWidget
     protected function getType(): string
     {
         return 'bar';
+    }
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Today',
+            'week' => 'Last Week',
+            'month' => 'Last Month',
+            'year' => 'This Year',
+        ];
+    }
+
+    // Daily
+    protected function getDailyData()
+    {
+        return Trend::model(User::class)
+            ->between(
+                start: now()->startOfDay(),
+                end: now()->endOfDay(),
+            )
+            ->perHour()
+            ->count();
+    }
+
+    // Weekly
+    protected function getWeeklyData()
+    {
+        return Trend::model(User::class)
+            ->between(
+                start: now()->startOfWeek(),
+                end: now()->endOfWeek(),
+            )
+            ->perDay()
+            ->count();
+    }
+
+    // Monthly
+    protected function getMonthlyData()
+    {
+        return Trend::model(User::class)
+            ->between(
+                start: now()->startOfMonth(),
+                end: now()->endOfMonth(),
+            )
+            ->perDay()
+            ->count();
+    }
+
+    // Yearly
+    protected function getYearlyData()
+    {
+        return Trend::model(User::class)
+            ->between(
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
+            )
+            ->perMonth()
+            ->count();
     }
 }

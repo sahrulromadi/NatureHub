@@ -12,36 +12,38 @@ use Filament\Widgets\ChartWidget;
 class WidgetProgressChart extends ChartWidget
 {
     protected static ?string $heading = 'Progress Chart';
+    public ?string $filter = 'year';
 
     protected function getData(): array
     {
+        $dataRange = $this->getDataRange();
+
         $articles = Trend::query(Article::where('status', 'Published'))
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: $dataRange['start'],
+                end: $dataRange['end'],
             )
             ->perMonth()
             ->count();
 
-        $campaigns = Trend::model(Campaign::class)
+        $campaigns = Trend::query(Campaign::query())
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: $dataRange['start'],
+                end: $dataRange['end'],
             )
             ->perMonth()
             ->count();
 
-        $users = Trend::model(User::class)
+        $users = Trend::query(User::query())
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: $dataRange['start'],
+                end: $dataRange['end'],
             )
             ->perMonth()
             ->count();
 
         return [
-            'datasets' =>
-            [
+            'datasets' => [
                 [
                     'label' => 'Articles',
                     'borderColor' => '#42a5f5',
@@ -59,7 +61,7 @@ class WidgetProgressChart extends ChartWidget
                     'borderColor' => '#66bb6a',
                     'backgroundColor' => 'rgba(102, 187, 106, 0.2)',
                     'data' => $users->map(fn(TrendValue $value) => $value->aggregate),
-                ]
+                ],
             ],
             'labels' => $articles->map(fn(TrendValue $value) => $value->date),
         ];
@@ -68,5 +70,37 @@ class WidgetProgressChart extends ChartWidget
     protected function getType(): string
     {
         return 'line';
+    }
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Today',
+            'week' => 'Last Week',
+            'month' => 'This Month',
+            'year' => 'This Year',
+        ];
+    }
+
+    protected function getDataRange(): array
+    {
+        return match ($this->filter) {
+            'daily' => [
+                'start' => now()->startOfDay(),
+                'end' => now()->endOfDay(),
+            ],
+            'week' => [
+                'start' => now()->startOfWeek(),
+                'end' => now()->endOfWeek(),
+            ],
+            'month' => [
+                'start' => now()->startOfMonth(),
+                'end' => now()->endOfMonth(),
+            ],
+            'year' => [
+                'start' => now()->startOfYear(),
+                'end' => now()->endOfYear(),
+            ],
+        };
     }
 }
