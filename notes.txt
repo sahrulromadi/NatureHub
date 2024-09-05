@@ -1,8 +1,7 @@
 bug :
-- layout edit profile masih jelek dan tidak simetris 
-
-- delete, force delete, restore untuk article yang sudah di hapus
+- custom notifikasi roles and permission di edit di vendor
 - di url masih belum pake slug
 
 abis ini:
-- benerin layout
+- testing 
+- dashboard

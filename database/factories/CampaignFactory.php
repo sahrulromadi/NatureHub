@@ -2,14 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Campaign>
  */
-class ArticleFactory extends Factory
+class CampaignFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,13 +17,14 @@ class ArticleFactory extends Factory
      */
     public function definition(): array
     {
-        $title = fake()->sentence(5);
+        $name = fake()->sentence(5);
         return [
-            'title' => $title,
-            'slug' => Str::slug($title),
-            'body' => fake()->text(500),
-            'user_id' => User::factory(),
+            'name' => $name,
+            'slug' => Str::slug($name),
+            'content' => fake()->text(500),
+            'summary' => fake()->sentence(10),
             'created_at' => fake()->dateTimeThisYear(),
+            'user_id' => 1
         ];
     }
 }

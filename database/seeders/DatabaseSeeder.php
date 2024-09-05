@@ -8,6 +8,7 @@ use App\Models\Article;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\RolePermissionSeeder;
+use App\Models\Campaign;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,10 +28,12 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123')
         ]);
 
-        // Article::factory(50)
-        //     ->recycle(
-        //         User::factory(10)->create()
-        //     )
-        //     ->create();
+        Article::factory(50)
+            ->recycle(
+                User::factory(10)->create(),
+            )
+            ->create();
+
+        Campaign::factory(50)->create();
     }
 }
