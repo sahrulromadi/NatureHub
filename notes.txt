@@ -1,7 +1,9 @@
 bug :
-- custom notifikasi roles and permission di edit di vendor
+- custom notifikasi roles and permission di edit -> ngeditnya di vendor
 - di url masih belum pake slug
+- urutan widget nya tidak bisa di custom
 
 abis ini:
 - testing 
-- dashboard
+- buat rekom untuk ditampilin di home
+

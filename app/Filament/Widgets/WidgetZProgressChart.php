@@ -8,11 +8,18 @@ use App\Models\Campaign;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Auth;
 
-class WidgetProgressChart extends ChartWidget
+class WidgetZProgressChart extends ChartWidget
 {
     protected static ?string $heading = 'Progress Chart';
     public ?string $filter = 'year';
+    protected static int $priority = 10;
+
+    public static function canView(): bool
+    {
+        return User::find(Auth::id())->hasAnyRole(['Super Admin', 'Admin']);
+    }
 
     protected function getData(): array
     {

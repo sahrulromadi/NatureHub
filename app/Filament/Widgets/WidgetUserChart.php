@@ -6,12 +6,18 @@ use App\Models\User;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
-
+use Illuminate\Support\Facades\Auth;
 
 class WidgetUserChart extends ChartWidget
 {
     protected static ?string $heading = 'Users Chart';
     public ?string $filter = 'year';
+    protected static int $priority = 1;
+
+    public static function canView(): bool
+    {
+        return User::find(Auth::id())->hasAnyRole(['Super Admin', 'Admin']);
+    }
 
     protected function getData(): array
     {

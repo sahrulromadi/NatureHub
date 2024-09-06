@@ -71,12 +71,13 @@ class UserResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->successNotification(
                         function ($record) {
-                            $roleName = $record->getRoleNames()->join(', ');
+                            $updatedRecord = $record->fresh(); 
+                            $roleName = $updatedRecord->roles->pluck('name')->join(', ');
 
                             return Notification::make()
                                 ->success()
                                 ->title('User role updated')
-                                ->body("'{$record->name}' has been updated to '{$roleName}'");
+                                ->body("'{$updatedRecord->name}' has been updated to '{$roleName}'");
                         }
                     ),
                 Tables\Actions\DeleteAction::make()

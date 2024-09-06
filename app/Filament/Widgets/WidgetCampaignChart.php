@@ -2,15 +2,22 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\User;
 use App\Models\Campaign;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Auth;
 
 class WidgetCampaignChart extends ChartWidget
 {
     protected static ?string $heading = 'Campaigns Chart';
     public ?string $filter = 'year';
+
+    public static function canView(): bool
+    {
+        return User::find(Auth::id())->hasAnyRole(['Super Admin', 'Admin']);
+    }
 
     protected function getData(): array
     {
