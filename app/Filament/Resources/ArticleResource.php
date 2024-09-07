@@ -246,7 +246,6 @@ class ArticleResource extends Resource
                         ImageEntry::make('image')
                             ->label(false)
                             ->columnSpanFull()
-                            ->size(300)
                             ->extraAttributes([
                                 'style' => 'justify-content: center; align-items: center;'
                             ])
