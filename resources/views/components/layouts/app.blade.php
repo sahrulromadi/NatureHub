@@ -89,6 +89,9 @@
                                         wire:navigate.hover>Articles</a>
                                 </div>
                             </div>
+                            <a href="{{ route('contacts') }}"
+                                class="nav-item nav-link {{ Route::is('contacts') ? 'active' : '' }}"
+                                wire:navigate.hover>Contacts</a>
                         </div>
                         <div class="d-flex align-items-center flex-nowrap pt-xl-0" style="margin-left: 15px;">
                             <a href="{{ route('filament.dashboard.auth.login') }}"

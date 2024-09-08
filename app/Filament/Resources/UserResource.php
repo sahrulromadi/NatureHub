@@ -21,6 +21,7 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-s-user-group';
     protected static ?string $navigationGroup = 'Others';
 
+    // To prohibit create for all roles (including Super Admin)
     public static function canCreate(): bool
     {
         return false;
@@ -71,7 +72,7 @@ class UserResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->successNotification(
                         function ($record) {
-                            $updatedRecord = $record->fresh(); 
+                            $updatedRecord = $record->fresh();
                             $roleName = $updatedRecord->roles->pluck('name')->join(', ');
 
                             return Notification::make()

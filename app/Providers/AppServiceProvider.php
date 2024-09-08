@@ -26,10 +26,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register observers
         Article::observe(ArticleObserver::class);
         Campaign::observe(CampaignObserver::class);
         User::observe(UserOberserver::class);
 
+        // Setup Gate permissions for super admin only access to all routes in the admin panel
         Gate::before(function (User $user, string $ability) {
             return $user->isSuperAdmin() ? true : null;
         });

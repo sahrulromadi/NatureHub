@@ -12,7 +12,7 @@ class WidgetUserChart extends ChartWidget
 {
     protected static ?string $heading = 'Users Chart';
     public ?string $filter = 'year';
-    protected static int $priority = 1;
+    protected static ?int $sort = 1;
 
     public static function canView(): bool
     {

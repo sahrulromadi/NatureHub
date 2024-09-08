@@ -6,11 +6,12 @@ use App\Models\Article;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Articles extends Component
+class ListArticles extends Component
 {
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
+
 
     public function render()
     {
@@ -18,6 +19,6 @@ class Articles extends Component
             ->orderByDesc('created_at')
             ->paginate(6);
 
-        return view('livewire.articles', compact('articles'));
+        return view('livewire.list-articles', compact('articles'));
     }
 }

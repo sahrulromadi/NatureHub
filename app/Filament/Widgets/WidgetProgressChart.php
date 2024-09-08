@@ -10,11 +10,11 @@ use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
 
-class WidgetZProgressChart extends ChartWidget
+class WidgetProgressChart extends ChartWidget
 {
     protected static ?string $heading = 'Progress Chart';
     public ?string $filter = 'year';
-    protected static int $priority = 10;
+    protected static ?int $sort = 2;
 
     public static function canView(): bool
     {
