@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <nav class="navbar navbar-light bg-light navbar-expand-xl">
-                    <a href="{{ route('home') }}" class="navbar-brand ms-3">
+                    <a href="{{ route('home') }}" class="navbar-brand ms-3" wire:navigate.hover>
                         <h1 class="text-primary display-5">NatureHub</h1>
                     </a>
                     <button class="navbar-toggler py-2 px-3 me-3" type="button" data-bs-toggle="collapse"
@@ -81,11 +81,11 @@
                                 wire:navigate.hover>About</a>
                             <div class="nav-item dropdown">
                                 <a href="#"
-                                    class="nav-link dropdown-toggle {{ Route::is('articles') ? 'active' : '' }}"
+                                    class="nav-link dropdown-toggle {{ Route::is('articles*') ? 'active' : '' }}"
                                     data-bs-toggle="dropdown">Content</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="{{ route('articles') }}"
-                                        class="dropdown-item {{ Route::is('articles') ? 'active' : '' }}"
+                                        class="dropdown-item {{ Route::is('articles*') ? 'active' : '' }}"
                                         wire:navigate.hover>Articles</a>
                                 </div>
                             </div>

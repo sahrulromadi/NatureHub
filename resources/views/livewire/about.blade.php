@@ -8,7 +8,7 @@
                         helping!
                     </p>
                     <ol class="breadcrumb justify-content-center mb-0">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}" wire:navigate.hover>Home</a></li>
                         <li class="breadcrumb-item active text-white">About Us</li>
                     </ol>
             </div>

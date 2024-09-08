@@ -16,7 +16,7 @@ class Articles extends Component
     {
         $articles = Article::where('status', 'Published')
             ->orderByDesc('created_at')
-            ->paginate(2);
+            ->paginate(6);
 
         return view('livewire.articles', compact('articles'));
     }

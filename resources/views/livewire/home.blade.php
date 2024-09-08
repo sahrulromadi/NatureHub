@@ -22,11 +22,12 @@
                                             Save
                                             Our Planet</h4>
                                         <h1 class="display-1 text-capitalize text-white mb-4">{{ $campaign->name }}</h1>
-                                        <p class="mb-5 fs-5">{!! $campaign->summary !!}
-                                        </p>
+                                        <div class="mb-5 fs-5">
+                                            {!! $campaign->summary !!}
+                                        </div>
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <a class="btn-hover-bg btn btn-primary text-white py-3 px-5"
-                                                href="#">Read
+                                            <a class="btn-hover-bg btn btn-primary text-white py-3 px-5" href=""
+                                                wire:navigate.hover>Read
                                                 More</a>
                                         </div>
                                     </div>
@@ -167,7 +168,7 @@
     </section>
     <!-- Problem End -->
 
-    <!-- Article Start -->
+    <!-- Articles List Start -->
     @if ($articles->isNotEmpty())
         <article>
             <div class="container-fluid blog py-5 mb-5">
@@ -203,7 +204,8 @@
                                         <h4 class="mb-4">{{ Str::limit($article->title, 25) }}</h4>
                                         <p class="mb-4">{!! Str::limit($article->body, 100) !!}</p>
                                         <a class="btn-hover-bg btn btn-primary text-white py-2 px-4"
-                                            href="#">Read
+                                            href="{{ route('articles.show', $article->slug) }}"
+                                            wire:navigate.hover>Read
                                             More</a>
                                     </div>
                                 </div>
@@ -214,5 +216,5 @@
             </div>
         </article>
     @endif
-    <!-- Article End -->
+    <!-- Articles List End -->
 </main>
