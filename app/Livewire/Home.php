@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Article;
 use Livewire\Component;
+use App\Models\Campaign;
 
 class Home extends Component
 {
@@ -14,6 +15,10 @@ class Home extends Component
             ->take(4)
             ->get();
 
-        return view('livewire.home', compact('articles'));
+        $campaigns = Campaign::orderByDesc('created_at')
+            ->take(3)
+            ->get();
+
+        return view('livewire.home', compact('articles', 'campaigns'));
     }
 }
