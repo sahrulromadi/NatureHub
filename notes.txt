@@ -5,5 +5,4 @@ bug :
 
 abis ini:
 - testing 
-- perbaiki logika contact
 
