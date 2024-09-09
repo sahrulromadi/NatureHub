@@ -27,26 +27,53 @@
                             form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and
                             you're done. <a class="text-dark fw-bold" href="https://htmlcodex.com/contact-form">Download
                                 Now</a>.</p>
-                        <form>
+
+                        @if (session()->has('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        <form wire:submit="save">
                             <div class="row gx-4 gy-3">
                                 <div class="col-xl-6">
-                                    <input type="text" class="form-control bg-white border-0 py-3 px-4"
-                                        placeholder="Your First Name">
+                                    <input type="text"
+                                        class="form-control bg-white border-0 py-3 px-4 @error('name') is-invalid @enderror"
+                                        placeholder="Your Name" wire:model="name">
+                                    @error('name')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="col-xl-6">
-                                    <input type="email" class="form-control bg-white border-0 py-3 px-4"
-                                        placeholder="Your Email">
+                                    <input type="email"
+                                        class="form-control bg-white border-0 py-3 px-4 @error('email') is-invalid @enderror"
+                                        placeholder="Your Email" wire:model="email">
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="col-xl-6">
-                                    <input type="text" class="form-control bg-white border-0 py-3 px-4"
-                                        placeholder="Your Phone">
+                                    <input type="text"
+                                        class="form-control bg-white border-0 py-3 px-4 @error('phone') is-invalid @enderror"
+                                        placeholder="Your Phone" wire:model="phone">
+                                    @error('phone')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="col-xl-6">
-                                    <input type="text" class="form-control bg-white border-0 py-3 px-4"
-                                        placeholder="Subject">
+                                    <input type="text"
+                                        class="form-control bg-white border-0 py-3 px-4 @error('subject') is-invalid @enderror"
+                                        placeholder="Subject" wire:model="subject">
+                                    @error('subject')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="col-12">
-                                    <textarea class="form-control bg-white border-0 py-3 px-4" rows="7" cols="10" placeholder="Your Message"></textarea>
+                                    <textarea class="form-control bg-white border-0 py-3 px-4 @error('message') is-invalid @enderror" rows="7"
+                                        cols="10" placeholder="Your Message" wire:model="message"></textarea>
+                                    @error('message')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="col-12">
                                     <button class="btn-hover-bg btn btn-primary w-100 py-3 px-5"
