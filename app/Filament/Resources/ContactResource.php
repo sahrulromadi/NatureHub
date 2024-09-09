@@ -13,6 +13,7 @@ use Filament\Infolists\Components\Tabs;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
+use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\ContactResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ContactResource\RelationManagers;
@@ -100,24 +101,36 @@ class ContactResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\BulkAction::make('BulkToggleStatus')
                         ->label(
-                            fn($records) =>
-                            is_array($records) && count($records) > 1 ?
-                                'Status for Selected' : (isset($records[0]) ? ($records[0]->status ? 'Mark as Unread' : 'Mark as Read') : 'Toggle Status for Selected')
+                            fn(?Collection $records) =>
+                            $records && $records->count() > 1 ?
+                                'Status for Selected' : ($records && $records->first()?->status ? 'Mark as Unread' : 'Mark as Read')
                         )
                         ->icon(
-                            fn($records) =>
-                            empty($records) ? 'heroicon-o-eye' : ($records[0]->status ? 'heroicon-o-eye-slash' : 'heroicon-o-eye')
+                            fn(?Collection $records) =>
+                            $records && $records->count() > 1 ?
+                                'heroicon-s-arrow-path-rounded-square' : ($records && $records->first()?->status ? 'heroicon-o-eye-slash' : 'heroicon-o-eye')
                         )
                         ->color(
-                            fn($records) =>
-                            empty($records) ? 'gray' : ($records[0]->status ? 'warning' : 'success')
+                            fn(?Collection $records) =>
+                            $records && $records->count() > 1 ?
+                                'primary' : ($records && $records->first()?->status ? 'warning' : 'success')
                         )
-                        ->action(function ($records) {
-                            foreach ($records as $record) {
-                                $newStatus = $record->status ? 0 : 1;
-                                $record->update(['status' => $newStatus]);
+                        ->action(function (?Collection $records) {
+                            if ($records && $records->count() > 0) {
+                                // count how many have been read and unread
+                                $readCount = $records->where('status', 1)->count();
+                                $unreadCount = $records->where('status', 0)->count();
+
+                                // logic to set new status
+                                $newStatus = $unreadCount > $readCount ? 1 : 0;
+
+                                // update records
+                                $records->each(function ($record) use ($newStatus) {
+                                    $record->update(['status' => $newStatus]);
+                                });
                             }
                         })
+                        ->deselectRecordsAfterCompletion()
                 ]),
             ])
             ->defaultSort(
