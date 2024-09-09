@@ -43,9 +43,6 @@ class ContactPolicy
      */
     public function update(User $user, Contact $contact): bool
     {
-        if ($user->hasRole('Admin')) {
-            return true;
-        }
         return false;
     }
 

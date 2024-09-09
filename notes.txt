@@ -5,5 +5,5 @@ bug :
 
 abis ini:
 - testing 
-- buat rekom untuk ditampilin di home
+- perbaiki logika contact
 
