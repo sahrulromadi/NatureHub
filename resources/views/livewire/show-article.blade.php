@@ -48,9 +48,7 @@
                     <!-- Like Section -->
                     <div class="card mb-4 shadow-sm border-light">
                         <div class="card-body text-center">
-                            <button class="btn btn-outline-primary w-100">
-                                <i class="fas fa-thumbs-up"></i> Like (5)
-                            </button>
+                            @livewire('like-button', ['model' => $article])
                         </div>
                     </div>
 
