@@ -135,6 +135,9 @@ class ArticleResource extends Resource
                         'Published' => 'success',
                         'Rejected' => 'danger',
                     }),
+                TextColumn::make('likes_count')
+                    ->label('Likes')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime('d/m/Y H:i')
                     ->sortable()
@@ -269,6 +272,12 @@ class ArticleResource extends Resource
             //
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->withCount('likes');
+    }
+
 
     public static function getPages(): array
     {

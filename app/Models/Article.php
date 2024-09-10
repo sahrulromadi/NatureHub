@@ -31,7 +31,6 @@ class Article extends Model
         return $this->morphMany(Like::class, 'likeable');
     }
 
-
     // Create default status after creating and updating
     protected static function booted(): void
     {
