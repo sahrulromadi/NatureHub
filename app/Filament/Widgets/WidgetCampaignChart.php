@@ -13,6 +13,7 @@ class WidgetCampaignChart extends ChartWidget
 {
     protected static ?string $heading = 'Campaigns Chart';
     public ?string $filter = 'year';
+    protected static ?int $sort = 3;
 
     public static function canView(): bool
     {

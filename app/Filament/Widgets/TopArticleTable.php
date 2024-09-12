@@ -6,13 +6,13 @@ use App\Models\User;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use App\Filament\Resources\ContactResource;
+use Illuminate\Database\Eloquent\Model;
+use App\Filament\Resources\ArticleResource;
 use Filament\Widgets\TableWidget as BaseWidget;
 
-class WidgetContactTable extends BaseWidget
+class TopArticleTable extends BaseWidget
 {
-    protected static ?int $sort = 6;
-    protected int | string | array $columnSpan = 'full';
+    protected static ?int $sort = 7;
 
     public static function canView(): bool
     {
@@ -23,25 +23,27 @@ class WidgetContactTable extends BaseWidget
     {
         return $table
             ->query(
-                ContactResource::getEloquentQuery()->where('status', 0)
+                ArticleResource::getEloquentQuery()->withCount('likes')
+                    ->orderBy('likes_count', 'desc')
+                    ->orderBy('created_at', 'desc')
+                    ->limit(5)
             )
-            ->description('Unread messages from the site will be shown here.')
             ->defaultPaginationPageOption(5)
-            ->defaultSort('created_at', 'desc')
-            ->recordUrl(route('filament.dashboard.resources.contacts.index'))
+            ->recordUrl(
+                fn(Model $record): string => route('articles.show', ['article' => $record->slug]),
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date')
                     ->dateTime()
                     ->sortable()
                     ->dateTime('d/m/Y H:i'),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->sortable()
+                Tables\Columns\TextColumn::make('title')
                     ->wrap(),
-                Tables\Columns\TextColumn::make('subject')
-                    ->searchable()
-                    ->wrap(),
+                Tables\Columns\TextColumn::make('likes_count')
+                    ->label('Likes'),
+                Tables\Columns\TextColumn::make('author.name')
+                    ->label('Author')
             ]);
     }
 }

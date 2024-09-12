@@ -13,6 +13,7 @@ class WidgetArticleChart extends ChartWidget
 {
     protected static ?string $heading = 'Articles Chart';
     public ?string $filter = 'year';
+    protected static ?int $sort = 2;
 
     public static function canView(): bool
     {

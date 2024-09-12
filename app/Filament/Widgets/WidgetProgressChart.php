@@ -14,7 +14,7 @@ class WidgetProgressChart extends ChartWidget
 {
     protected static ?string $heading = 'Progress Chart';
     public ?string $filter = 'year';
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 5;
 
     public static function canView(): bool
     {
