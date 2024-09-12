@@ -27,6 +27,14 @@ class CampaignObserver
                 Storage::disk('public')->delete($oldImage);
             }
         }
+
+        if ($campaign->isDirty('banner')) {
+            $oldBanner = $campaign->getOriginal('banner');
+
+            if ($oldBanner) {
+                Storage::disk('public')->delete($oldBanner);
+            }
+        }
     }
 
     /**
@@ -52,6 +60,10 @@ class CampaignObserver
     {
         if ($campaign->image != null) {
             Storage::disk('public')->delete($campaign->image);
+        }
+
+        if ($campaign->banner != null) {
+            Storage::disk('public')->delete($campaign->banner);
         }
     }
 }

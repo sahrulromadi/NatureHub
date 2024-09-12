@@ -17,6 +17,7 @@ class Campaign extends Model
         'content',
         'summary',
         'image',
+        'banner',
         'user_id'
     ];
 

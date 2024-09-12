@@ -89,6 +89,18 @@ class CampaignResource extends Resource
                             ->icon('heroicon-c-photo')
                             ->schema([
                                 FileUpload::make('image')
+                                    ->label('Poster')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->imageResizeMode('cover')
+                                    ->imageCropAspectRatio('3508:4961')
+                                    ->imageResizeTargetWidth('3508')
+                                    ->imageResizeTargetHeight('4961')
+                                    ->openable()
+                                    ->directory('images')
+                                    ->columnSpan(1)
+                                    ->imagePreviewHeight('250'),
+                                FileUpload::make('banner')
                                     ->image()
                                     ->imageEditor()
                                     ->imageResizeMode('cover')
@@ -127,7 +139,9 @@ class CampaignResource extends Resource
                 TextColumn::make('summary')
                     ->wrap()
                     ->html(),
-                ImageColumn::make('image'),
+                ImageColumn::make('image')
+                    ->label('Poster'),
+                ImageColumn::make('banner'),
                 TextColumn::make('author.name')
                     ->label('Author')
                     ->searchable()
@@ -227,14 +241,15 @@ class CampaignResource extends Resource
         return $infolist
             ->schema([
                 Section::make()
-                    ->description('Image')
+                    ->description('Poster')
                     ->icon('heroicon-m-photo')
                     ->schema([
                         ImageEntry::make('image')
                             ->label(false)
-                            ->defaultImageUrl(asset('img/logo.png'))
+                            ->defaultImageUrl(asset('img/defaultPoster.png'))
                             ->columnSpanFull()
-                            ->size(300)
+                            ->width(300)
+                            ->height(400)
                             ->extraAttributes([
                                 'style' => 'justify-content: center; align-items: center;'
                             ])
