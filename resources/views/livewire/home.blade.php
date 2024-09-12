@@ -13,22 +13,21 @@
                     @if ($campaigns->isNotEmpty())
                         @foreach ($campaigns as $index => $campaign)
                             <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                <img src="{{ $campaign->image ? asset('storage/' . $campaign->image) : asset('img/defaultCampaign.jpg') }}"
-                                    class="img-fluid" alt="Image">
+                                <img src="{{ $campaign->image ? asset('storage/' . $campaign->image) : asset('img/defaultBanner.jpg') }}"
+                                    class="img-fluid" alt="Campaign Image">
                                 <div class="carousel-caption">
                                     <div class="p-3" style="max-width: 900px;">
                                         <h4 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">
-                                            WE'll
-                                            Save
-                                            Our Planet</h4>
+                                            WE'll Save Our Planet</h4>
                                         <h1 class="display-1 text-capitalize text-white mb-4">{{ $campaign->name }}</h1>
                                         <div class="mb-5 fs-5">
                                             {!! $campaign->summary !!}
                                         </div>
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <a class="btn-hover-bg btn btn-primary text-white py-3 px-5" href=""
-                                                wire:navigate.hover>Read
-                                                More</a>
+                                            <!-- Tombol Buka Modal -->
+                                            <a class="btn-hover-bg btn btn-primary text-white py-3 px-5" href="#"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#campaignModal{{ $index }}">Read More</a>
                                         </div>
                                     </div>
                                 </div>
@@ -36,21 +35,19 @@
                         @endforeach
                     @else
                         <div class="carousel-item active">
-                            <img src="{{ asset('fe/img/carousel-1.jpg') }}" class="img-fluid" alt="Image">
+                            <img src="{{ asset('defaultBanner.jpg') }}" class="img-fluid" alt="Image">
                             <div class="carousel-caption">
                                 <div class="p-3" style="max-width: 900px;">
                                     <h4 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">
-                                        WE'll
-                                        Save
-                                        Our Planet</h4>
+                                        WE'll Save Our Planet</h4>
                                     <h1 class="display-1 text-capitalize text-white mb-4">Default</h1>
                                     <p class="mb-5 fs-5">Lorem Ipsum is simply dummy text of the printing and
                                         typesetting industry. Lorem Ipsum has been the industry's standard dummy text
                                         ever since the 1500s
                                     </p>
                                     <div class="d-flex align-items-center justify-content-center">
-                                        <a class="btn-hover-bg btn btn-primary text-white py-3 px-5" href="#">Read
-                                            More</a>
+                                        <a class="btn-hover-bg btn btn-primary text-white py-3 px-5" href="#"
+                                            data-bs-toggle="modal" data-bs-target="#campaignModal0">Read More</a>
                                     </div>
                                 </div>
                             </div>
@@ -69,6 +66,41 @@
         </div>
     </article>
     <!-- Campaign End -->
+
+    <!-- Modal Campaign Start -->
+    @foreach ($campaigns as $index => $campaign)
+        <div class="modal fade" id="campaignModal{{ $index }}" tabindex="-1"
+            aria-labelledby="campaignModalLabel{{ $index }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="campaignModalLabel{{ $index }}">Detail Campaign</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <img src="{{ $campaign->image ? asset('storage/' . $campaign->image) : asset('img/defaultPoster.png') }}"
+                                    class="img-fluid rounded" alt="Campaign Image">
+                            </div>
+                            <div class="col-md-6">
+                                <h4 class="fw-bold">{{ $campaign->name }}</h4>
+                                <p class="text-muted">{{ $campaign->created_at->format('d M, Y') }}</p>
+                                <p class="mb-4">{!! $campaign->content !!}</p>
+                                <div class="d-flex align-items-center justify-content-between">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        @livewire('like-button', ['model' => $campaign])
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- Modal Campaign End -->
 
     <!-- Problem Start -->
     <section>
@@ -99,7 +131,8 @@
                     <div class="gallery-item">
                         <img src="{{ asset('fe/img/gallery-3.jpg') }}" class="img-fluid w-100" alt="">
                         <div class="search-icon">
-                            <a href="{{ asset('fe/img/gallery-3.jpg') }}" data-lightbox="gallery-3" class="my-auto"><i
+                            <a href="{{ asset('fe/img/gallery-3.jpg') }}" data-lightbox="gallery-3"
+                                class="my-auto"><i
                                     class="fas fa-search-plus btn-hover-color bg-white text-primary p-3"></i></a>
                         </div>
                         <div class="gallery-content">
@@ -116,7 +149,8 @@
                     <div class="gallery-item">
                         <img src="{{ asset('fe/img/gallery-1.jpg') }}" class="img-fluid w-100" alt="">
                         <div class="search-icon">
-                            <a href="{{ asset('fe/img/gallery-1.jpg') }}" data-lightbox="gallery-1" class="my-auto"><i
+                            <a href="{{ asset('fe/img/gallery-1.jpg') }}" data-lightbox="gallery-1"
+                                class="my-auto"><i
                                     class="fas fa-search-plus btn-hover-color bg-white text-primary p-3"></i></a>
                         </div>
                         <div class="gallery-content">
