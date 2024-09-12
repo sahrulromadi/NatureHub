@@ -18,6 +18,7 @@ class Campaign extends Model
         'summary',
         'image',
         'banner',
+        'is_starred',
         'user_id'
     ];
 

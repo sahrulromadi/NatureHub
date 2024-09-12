@@ -15,7 +15,8 @@ class Home extends Component
             ->take(4)
             ->get();
 
-        $campaigns = Campaign::orderByDesc('created_at')
+        $campaigns = Campaign::where('is_starred', true)
+            ->orderByDesc('created_at')
             ->take(3)
             ->get();
 

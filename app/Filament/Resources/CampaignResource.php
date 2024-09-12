@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Tabs;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Tables\Actions\EditAction;
@@ -161,10 +162,21 @@ class CampaignResource extends Resource
             ])
             ->filters([
                 TrashedFilter::make(),
+                Filter::make('is_starred')
+                    ->label('Starred')
+                    ->toggle()
             ])
             ->actions([
                 ActionGroup::make([
                     ViewAction::make(),
+                    Tables\Actions\Action::make('star')
+                        ->action(function ($record) {
+                            $record->update([
+                                'is_starred' => !$record->is_starred
+                            ]);
+                        })
+                        ->color('warning')
+                        ->icon(fn($record) => $record->is_starred ? 'heroicon-s-star' : 'heroicon-o-star'),
                     EditAction::make()
                         ->successNotification(
                             function ($record) {
