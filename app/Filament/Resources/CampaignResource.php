@@ -147,6 +147,9 @@ class CampaignResource extends Resource
                     ->label('Author')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('likes_count')
+                    ->label('Likes')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime('d/m/Y H:i')
                     ->sortable()
@@ -280,6 +283,7 @@ class CampaignResource extends Resource
             ]);
     }
 
+
     public static function getPages(): array
     {
         return [
@@ -292,6 +296,7 @@ class CampaignResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
-            ]);
+            ])
+            ->withCount('likes');
     }
 }
