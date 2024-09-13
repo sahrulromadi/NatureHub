@@ -1,8 +1,5 @@
 bug :
-- custom notifikasi roles and permission di edit -> ngeditnya di vendor
+- custom notifikasi roles and permission di edit -> codingnya di vendor (dilarang)
 - di url masih belum pake slug
-- urutan widget nya tidak bisa di custom
-
-abis ini:
-- testing 
+- menggunakan disqus di modal
 

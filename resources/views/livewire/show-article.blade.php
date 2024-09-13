@@ -33,7 +33,7 @@
                     </div>
                 </div>
 
-                <!-- Author, Like & Recommendation Sidebar -->
+                <!-- Author, Like & Recommendation Sidebar Start -->
                 <div class="col-lg-4">
                     <!-- Author Section -->
                     <div class="card mb-4 shadow-sm border-light">
@@ -62,7 +62,8 @@
                                 <div class="mb-3">
                                     <a href="{{ route('articles.show', $recommended->slug) }}"
                                         class="d-block text-decoration-none" wire:navigate.hover>
-                                        <h6 class="text-primary mb-1">{{ Str::limit($recommended->title, 50) }}</h6>
+                                        <h6 class="text-primary mb-1">{{ Str::limit($recommended->title, 50) }}
+                                        </h6>
                                     </a>
                                     <small class="text-muted">
                                         By {{ $recommended->author->name }} -
@@ -74,6 +75,35 @@
                         </div>
                     </div>
                 </div>
+                {{-- Author, Like & Recommendation Sidebar End --}}
+
+                {{-- Comments Section Start --}}
+                <div class="comments-section mt-5">
+                    <h4 class="mb-4">Comments</h4>
+                    <div id="disqus_thread"></div>
+                    <script>
+                        /**
+                         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+                        /*
+                        var disqus_config = function () {
+                        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                        };
+                        */
+                        (function() { // DON'T EDIT BELOW THIS LINE
+                            var d = document,
+                                s = d.createElement('script');
+                            s.src = 'https://naturehub.disqus.com/embed.js';
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments
+                            powered by Disqus.</a></noscript>
+                </div>
+                {{-- Comments Section End --}}
+
             </div>
         </div>
     </section>

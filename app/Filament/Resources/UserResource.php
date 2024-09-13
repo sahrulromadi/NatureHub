@@ -42,6 +42,10 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\Layout\Split::make([
+                    Tables\Columns\TextColumn::make('index')
+                        ->label('No')
+                        ->rowIndex()
+                        ->alignCenter(),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->searchable()

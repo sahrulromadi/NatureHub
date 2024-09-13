@@ -33,11 +33,9 @@ class TopArticleTable extends BaseWidget
                 fn(Model $record): string => route('articles.show', ['article' => $record->slug]),
             )
             ->columns([
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Date')
-                    ->dateTime()
-                    ->sortable()
-                    ->dateTime('d/m/Y H:i'),
+                Tables\Columns\TextColumn::make('index')
+                    ->label('No')
+                    ->rowIndex(),
                 Tables\Columns\TextColumn::make('title')
                     ->wrap(),
                 Tables\Columns\TextColumn::make('likes_count')

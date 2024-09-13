@@ -118,6 +118,9 @@ class ArticleResource extends Resource
                 }
             })
             ->columns([
+                TextColumn::make('index')
+                    ->label('No')
+                    ->rowIndex(),
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable()

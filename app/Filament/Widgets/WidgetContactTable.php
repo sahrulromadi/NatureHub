@@ -30,6 +30,9 @@ class WidgetContactTable extends BaseWidget
             ->defaultSort('created_at', 'desc')
             ->recordUrl(route('filament.dashboard.resources.contacts.index'))
             ->columns([
+                Tables\Columns\TextColumn::make('index')
+                    ->label('No')
+                    ->rowIndex(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date')
                     ->dateTime()

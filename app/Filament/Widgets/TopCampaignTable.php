@@ -30,11 +30,9 @@ class TopCampaignTable extends BaseWidget
             ->defaultPaginationPageOption(5)
             ->recordUrl(route('filament.dashboard.resources.campaigns.index'))
             ->columns([
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Date')
-                    ->dateTime()
-                    ->sortable()
-                    ->dateTime('d/m/Y H:i'),
+                Tables\Columns\TextColumn::make('index')
+                    ->label('No')
+                    ->rowIndex(),
                 Tables\Columns\TextColumn::make('name')
                     ->wrap(),
                 Tables\Columns\TextColumn::make('likes_count')

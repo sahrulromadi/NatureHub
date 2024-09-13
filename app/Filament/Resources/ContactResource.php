@@ -49,6 +49,9 @@ class ContactResource extends Resource
         return $table
             ->description('All messages from the site will be shown here.')
             ->columns([
+                Tables\Columns\TextColumn::make('index')
+                    ->label('No')
+                    ->rowIndex(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date')
                     ->dateTime()
