@@ -17,17 +17,31 @@
     <!-- Header End -->
 
     <!-- Articles List Start -->
-    @if ($articles->isNotEmpty())
-        <section>
-            <div class="container-fluid donation py-5">
-                <div class="container py-5">
-                    <div class="text-center mx-auto pb-5" style="max-width: 800px;">
-                        <h5 class="text-uppercase text-primary">List Articles</h5>
-                        <h1 class="mb-0">Your money will save our life</h1>
+    <section>
+        <div class="container-fluid donation py-5">
+            <div class="container py-5">
+                <div class="text-center mx-auto pb-5" style="max-width: 800px;">
+                    <h5 class="text-uppercase text-primary">List Articles</h5>
+                    <h1 class="mb-0">Your money will save our life</h1>
+                </div>
+
+                <!-- Search Bar Start -->
+                <div class="container pb-5">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="input-group">
+                                <input type="text" name="search" class="form-control"
+                                    placeholder="Search articles..." wire:model.live="search">
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <!-- Search Bar End -->
+
+                @if ($articles->isNotEmpty())
                     <div class="row g-4">
-                        @foreach ($articles as $article)
-                            <div class="col-lg-4">
+                        @foreach ($articles as $index => $article)
+                            <div class="col-lg-4" wire:key="{{ $index }}">
                                 <div class="donation-item">
                                     <img src="{{ $article->image ? asset('storage/' . $article->image) : asset('img/defaultImg.jpg') }}"
                                         class="img-fluid" style="width: 500px; height: 600px; object-fit: cover;"
@@ -52,12 +66,20 @@
                             </div>
                         @endforeach
                     </div>
-                </div>
-                <div class="px-5">
-                    {{ $articles->links() }}
-                </div>
+                    <div class="px-5 pt-5">
+                        {{ $articles->links() }}
+                    </div>
+                @else
+                    <div class="text-center">
+                        <div class="alert alert-warning mb-4" role="alert">
+                            <h4 class="alert-heading">No Articles Found</h4>
+                            <p class="mb-0">We couldn't find any articles.</p>
+                        </div>
+                        <a href="{{ route('home') }}" class="btn btn-primary" wire:navigate.hover>Back To Home</a>
+                    </div>
+                @endif
             </div>
-        </section>
-    @endif
+        </div>
+    </section>
     <!-- Articles List End -->
 </main>
