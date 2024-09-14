@@ -1,12 +1,9 @@
 <main>
     <!-- Header Start -->
     <section>
-        <div class="container-fluid bg-breadcrumb">
+        <div class="container-fluid bg-breadcrumb-4">
             <div class="container text-center py-5" style="max-width: 900px;">
                 <h1 class="text-white display-4 mb-4">{{ $article->title }}</h1>
-                <p class="fs-4 text-white mb-4">
-                    Discover insights and stories that inspire. Your next great read is just a click away!
-                </p>
                 <ol class="breadcrumb justify-content-center mb-0">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}" wire:navigate.hover>Home</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('articles') }}" wire:navigate.hover>Articles</a></li>

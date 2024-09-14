@@ -250,8 +250,32 @@
 
 
 /*** Single Page Hero Header Start ***/
-.bg-breadcrumb {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(../img/breadcrumb-bg.jpg);
+.bg-breadcrumb-1 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/img/img2.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 100px 0 0 0;
+}
+
+.bg-breadcrumb-2 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/img/img3.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 100px 0 0 0;
+}
+
+.bg-breadcrumb-3 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/img/img4.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 100px 0 0 0;
+}
+
+.bg-breadcrumb-4 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/img/img1.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;

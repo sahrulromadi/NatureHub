@@ -10,8 +10,9 @@ class Home extends Component
 {
     public function render()
     {
-        $articles = Article::where('status', 'Published')
-            ->orderByDesc('views')
+        $articles = Article::withCount('likes')
+            ->where('status', 'Published')
+            ->orderByRaw('(views + likes_count) DESC')
             ->orderByDesc('updated_at')
             ->take(4)
             ->get();

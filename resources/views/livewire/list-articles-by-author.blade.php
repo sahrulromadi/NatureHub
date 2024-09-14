@@ -1,11 +1,11 @@
 <main>
     <!-- Header Start -->
     <section>
-        <div class="container-fluid bg-breadcrumb">
+        <div class="container-fluid bg-breadcrumb-3">
             <div class="container text-center py-5" style="max-width: 900px;">
-                <h3 class="text-white display-3 mb-4">Articles by {{ $author->name }}</h1>
-                    <p class="fs-5 text-white mb-4">Help today because tomorrow you may be the one who needs more
-                        helping!
+                <h3 class="text-white display-3 mb-4">List Articles</h1>
+                    <p class="fs-5 text-white mb-4">Discover articles that explore key environmental issues, offering
+                        insights and inspiration for a greener future.
                     </p>
                     <ol class="breadcrumb justify-content-center mb-0">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}" wire:navigate.hover>Home</a></li>
@@ -25,7 +25,7 @@
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5" style="max-width: 800px;">
                     <h5 class="text-uppercase text-primary">List Articles by {{ $author->name }}</h5>
-                    <h1 class="mb-0">Your money will save our life</h1>
+                    <h1 class="mb-0">Your Support Can Help Protect Our Planet</h1>
                 </div>
 
                 <!-- Search Bar Start -->

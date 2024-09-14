@@ -17,8 +17,6 @@
                                     class="img-fluid" alt="Campaign Image">
                                 <div class="carousel-caption">
                                     <div class="p-3" style="max-width: 900px;">
-                                        <h4 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">
-                                            WE'll Save Our Planet</h4>
                                         <h1 class="display-1 text-capitalize text-white mb-4">{{ $campaign->name }}</h1>
                                         <div class="mb-5 fs-5">
                                             {!! $campaign->summary !!}
@@ -38,8 +36,6 @@
                             <img src="{{ asset('img/defaultBanner.jpg') }}" class="img-fluid" alt="Image">
                             <div class="carousel-caption">
                                 <div class="p-3" style="max-width: 900px;">
-                                    <h4 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">
-                                        WE'll Save Our Planet</h4>
                                     <h1 class="display-1 text-capitalize text-white mb-4">Default</h1>
                                     <p class="mb-5 fs-5">Lorem Ipsum is simply dummy text of the printing and
                                         typesetting industry. Lorem Ipsum has been the industry's standard dummy text
@@ -107,94 +103,107 @@
     <section>
         <div class="container-fluid gallery py-5 px-0">
             <div class="text-center mx-auto pb-5" style="max-width: 800px;">
-                <h5 class="text-uppercase text-primary">Our work</h5>
-                <h1 class="mb-4">We consider environment welfare</h1>
-                <p class="mb-0">Lorem ipsum dolor sit amet consectur adip sed eiusmod amet consectur adip sed eiusmod
-                    tempor ipsum dolor sit amet consectur adip sed eiusmod amet consectur adip sed eiusmod tempor.</p>
+                <h5 class="text-uppercase text-primary">Problem</h5>
+                <h1 class="mb-4">
+                    <span>The</span>
+                    <span
+                        style="font-size: 3rem; color: #2ecc71; font-weight: bold; text-decoration: underline; text-decoration-color: #2ecc71; text-decoration-thickness: 3px; text-decoration-style: wavy; margin-bottom: 1rem;">
+                        EARTH
+                    </span>
+                    <span>is in</span>
+                    <span class="text-danger">Danger!</span>
+                </h1>
+                <p class="mb-0">The earth is in danger due to a number of serious environmental problems that affect
+                    the balance of ecosystems and the quality of human life. Here are some of the main reasons:</p>
             </div>
             <div class="row g-0">
                 <div class="col-lg-4">
                     <div class="gallery-item">
-                        <img src="{{ asset('fe/img/gallery-2.jpg') }}" class="img-fluid w-100" alt="">
+                        <img src="{{ asset('img/climate-change.jpg') }}" class="img-fluid"
+                            style="width: 500px; height: 500px; object-fit: cover;" alt="Climate Change">
                         <div class="search-icon">
-                            <a href="{{ asset('fe/img/gallery-2.jpg') }}" data-lightbox="gallery-2"
+                            <a href="{{ asset('img/climate-change.jpg') }}" data-lightbox="gallery-2"
                                 class="my-auto"><i
                                     class="fas fa-search-plus btn-hover-color bg-white text-primary p-3"></i></a>
                         </div>
                         <div class="gallery-content">
                             <div class="gallery-inner pb-5">
-                                <a href="#" class="h4 text-white">Beauty Of Life</a>
-                                <a href="#" class="text-white">
-                                    <p class="mb-0">Gallery Name</p>
-                                </a>
+                                <span class="h4 text-white">Problem 1</span>
+                                <span class="text-white">
+                                    <p class="mb-0">Climate Change</p>
+                                </span>
                             </div>
                         </div>
                     </div>
                     <div class="gallery-item">
-                        <img src="{{ asset('fe/img/gallery-3.jpg') }}" class="img-fluid w-100" alt="">
+                        <img src="{{ asset('img/deforestation.jpg') }}" class="img-fluid"
+                            style="width: 500px; height: 500px; object-fit: cover;" alt="Deforestation">
                         <div class="search-icon">
-                            <a href="{{ asset('fe/img/gallery-3.jpg') }}" data-lightbox="gallery-3"
+                            <a href="{{ asset('img/deforestation.jpg') }}" data-lightbox="gallery-3"
                                 class="my-auto"><i
                                     class="fas fa-search-plus btn-hover-color bg-white text-primary p-3"></i></a>
                         </div>
                         <div class="gallery-content">
                             <div class="gallery-inner pb-5">
-                                <a href="#" class="h4 text-white">Beauty Of Life</a>
-                                <a href="#" class="text-white">
-                                    <p class="mb-0">Gallery Name</p>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="gallery-item">
-                        <img src="{{ asset('fe/img/gallery-1.jpg') }}" class="img-fluid w-100" alt="">
-                        <div class="search-icon">
-                            <a href="{{ asset('fe/img/gallery-1.jpg') }}" data-lightbox="gallery-1"
-                                class="my-auto"><i
-                                    class="fas fa-search-plus btn-hover-color bg-white text-primary p-3"></i></a>
-                        </div>
-                        <div class="gallery-content">
-                            <div class="gallery-inner pb-5">
-                                <a href="#" class="h4 text-white">Beauty Of Life</a>
-                                <a href="#" class="text-white">
-                                    <p class="mb-0">Gallery Name</p>
-                                </a>
+                                <span class="h4 text-white">Problem 2</span>
+                                <span class="text-white">
+                                    <p class="mb-0">Deforestation</p>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="gallery-item">
-                        <img src="{{ asset('fe/img/gallery-4.jpg') }}" class="img-fluid w-100" alt="">
+                        <img src="{{ asset('img/air-pollution.jpg') }}" class="img-fluid"
+                            style="width: 500px; height: 1000px; object-fit: cover;" alt="Air Pollution">
                         <div class="search-icon">
-                            <a href="{{ asset('fe/img/gallery-4.jpg') }}" data-lightbox="gallery-4"
+                            <a href="{{ asset('img/air-pollution.jpg') }}" data-lightbox="gallery-1"
                                 class="my-auto"><i
                                     class="fas fa-search-plus btn-hover-color bg-white text-primary p-3"></i></a>
                         </div>
                         <div class="gallery-content">
                             <div class="gallery-inner pb-5">
-                                <a href="#" class="h4 text-white">Beauty Of Life</a>
-                                <a href="#" class="text-white">
-                                    <p class="mb-0">Gallery Name</p>
-                                </a>
+                                <span class="h4 text-white">Problem 3</span>
+                                <span class="text-white">
+                                    <p class="mb-0">Air and Water Pollution</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="gallery-item">
+                        <img src="{{ asset('img/plastic-pollution.jpg') }}" class="img-fluid"
+                            style="width: 500px; height: 500px; object-fit: cover;" alt="Plastic Pollution">
+                        <div class="search-icon">
+                            <a href="{{ asset('img/plastic-pollution.jpg') }}" data-lightbox="gallery-4"
+                                class="my-auto"><i
+                                    class="fas fa-search-plus btn-hover-color bg-white text-primary p-3"></i></a>
+                        </div>
+                        <div class="gallery-content">
+                            <div class="gallery-inner pb-5">
+                                <span class="h4 text-white">Problem 4</span>
+                                <span class="text-white">
+                                    <p class="mb-0">Plastic Pollution</p>
+                                </span>
                             </div>
                         </div>
                     </div>
                     <div class="gallery-item">
-                        <img src="{{ asset('fe/img/gallery-5.jpg') }}" class="img-fluid w-100" alt="">
+                        <img src="{{ asset('img/water-crisis.jpg') }}" class="img-fluid"
+                            style="width: 500px; height: 500px; object-fit: cover;" alt="Plastic Pollution">
                         <div class="search-icon">
-                            <a href="{{ asset('fe/img/gallery-5.jpg') }}" data-lightbox="gallery-5"
+                            <a href="{{ asset('img/water-crisis.jpg') }}" data-lightbox="gallery-5"
                                 class="my-auto"><i
                                     class="fas fa-search-plus btn-hover-color bg-white text-primary p-3"></i></a>
                         </div>
                         <div class="gallery-content">
                             <div class="gallery-inner pb-5">
-                                <a href="#" class="h4 text-white">Beauty Of Life</a>
-                                <a href="#" class="text-white">
-                                    <p class="mb-0">Gallery Name</p>
-                                </a>
+                                <span class="h4 text-white">Problem 5</span>
+                                <span class="text-white">
+                                    <p class="mb-0">Water Crisis</p>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -210,8 +219,9 @@
             <div class="container-fluid blog py-5 mb-5">
                 <div class="container py-5">
                     <div class="text-center mx-auto pb-5" style="max-width: 800px;">
-                        <h5 class="text-uppercase text-primary">Latest News</h5>
-                        <h1 class="mb-0">Help today because tomorrow you may be the one who needs more helping!
+                        <h5 class="text-uppercase text-primary">Discover the Most Read Articles</h5>
+                        <h1 class="mb-0">Dive into our most popular articles and explore the content that's
+                            captivating readers everywhere.
                         </h1>
                     </div>
                     <div class="row g-4">
@@ -225,9 +235,10 @@
                                             <span><i class="fa fa-clock"></i>
                                                 {{ $article->created_at->format('M j, Y') }}</span>
                                             <div class="d-flex">
-                                                <span class="me-3"> 3 <i class="fa fa-heart"></i></span>
-                                                <a href="#" class="text-white">0 <i
-                                                        class="fa fa-comment"></i></a>
+                                                <span class="me-3"> {{ $article->likes->count() }} <i
+                                                        class="fa fa-heart"></i></span>
+                                                <a href="#" class="text-white">{{ $article->views }} <i
+                                                        class="fa fa-eye"></i></a>
                                             </div>
                                         </div>
                                         <div class="search-icon">
