@@ -141,6 +141,8 @@ class ArticleResource extends Resource
                 TextColumn::make('likes_count')
                     ->label('Likes')
                     ->sortable(),
+                TextColumn::make('views')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime('d/m/Y H:i')
                     ->sortable()

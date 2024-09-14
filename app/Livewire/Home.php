@@ -11,12 +11,13 @@ class Home extends Component
     public function render()
     {
         $articles = Article::where('status', 'Published')
-            ->orderByDesc('created_at')
+            ->orderByDesc('views')
+            ->orderByDesc('updated_at')
             ->take(4)
             ->get();
 
         $campaigns = Campaign::where('is_starred', true)
-            ->orderByDesc('created_at')
+            ->orderByDesc('updated_at')
             ->take(3)
             ->get();
 

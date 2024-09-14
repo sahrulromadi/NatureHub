@@ -3,13 +3,16 @@
     <section>
         <div class="container-fluid bg-breadcrumb">
             <div class="container text-center py-5" style="max-width: 900px;">
-                <h3 class="text-white display-3 mb-4">All Articles</h1>
+                <h3 class="text-white display-3 mb-4">Articles by {{ $author->name }}</h1>
                     <p class="fs-5 text-white mb-4">Help today because tomorrow you may be the one who needs more
                         helping!
                     </p>
                     <ol class="breadcrumb justify-content-center mb-0">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}" wire:navigate.hover>Home</a></li>
-                        <li class="breadcrumb-item active text-white">Articles</li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('articles') }}" wire:navigate.hover>Articles</a>
+                        </li>
+                        <li class="breadcrumb-item active text-white">Articles by {{ $author->name }}</li>
                     </ol>
             </div>
         </div>
@@ -21,7 +24,7 @@
         <div class="container-fluid donation py-5">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5" style="max-width: 800px;">
-                    <h5 class="text-uppercase text-primary">List Articles</h5>
+                    <h5 class="text-uppercase text-primary">List Articles by {{ $author->name }}</h5>
                     <h1 class="mb-0">Your money will save our life</h1>
                 </div>
 

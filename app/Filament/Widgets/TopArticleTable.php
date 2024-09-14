@@ -38,10 +38,10 @@ class TopArticleTable extends BaseWidget
                     ->rowIndex(),
                 Tables\Columns\TextColumn::make('title')
                     ->wrap(),
-                Tables\Columns\TextColumn::make('likes_count')
-                    ->label('Likes'),
                 Tables\Columns\TextColumn::make('author.name')
-                    ->label('Author')
+                    ->label('Author'),
+                Tables\Columns\TextColumn::make('likes_count')
+                    ->label('Likes')
             ]);
     }
 }
