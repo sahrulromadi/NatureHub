@@ -41,7 +41,7 @@
                 @if ($articles->isNotEmpty())
                     <div class="row g-4">
                         @foreach ($articles as $index => $article)
-                            <div class="col-lg-4" wire:key="{{ $index }}">
+                            <div class="col-lg-4" wire:key="article-{{ $index }}">
                                 <div class="donation-item">
                                     <img src="{{ $article->image ? asset('storage/' . $article->image) : asset('img/defaultImg.jpg') }}"
                                         class="img-fluid" style="width: 500px; height: 600px; object-fit: cover;"

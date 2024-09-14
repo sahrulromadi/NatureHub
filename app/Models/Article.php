@@ -18,6 +18,7 @@ class Article extends Model
         'body',
         'image',
         'status',
+        'views',
         'user_id'
     ];
 

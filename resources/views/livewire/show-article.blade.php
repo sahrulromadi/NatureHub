@@ -45,10 +45,18 @@
                         </div>
                     </div>
 
-                    <!-- Like Section -->
-                    <div class="card mb-4 shadow-sm border-light">
-                        <div class="card-body text-center">
-                            @livewire('like-button', ['model' => $article])
+                    <!-- Like & Views Section -->
+                    <div class="card mb-4 shadow-sm border-light rounded-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <!-- Views Count -->
+                            <div class="d-flex align-items-center">
+                                @livewire('views-count', ['model' => $article])
+                            </div>
+
+                            <!-- Like Button -->
+                            <div class="d-flex align-items-center">
+                                @livewire('like-button', ['model' => $article])
+                            </div>
                         </div>
                     </div>
 

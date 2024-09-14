@@ -70,7 +70,8 @@
     <!-- Modal Campaign Start -->
     @foreach ($campaigns as $index => $campaign)
         <div class="modal fade" id="campaignModal{{ $index }}" tabindex="-1"
-            aria-labelledby="campaignModalLabel{{ $index }}" aria-hidden="true">
+            aria-labelledby="campaignModalLabel{{ $index }}" aria-hidden="true" wire:ignore.self
+            wire:key="campaign-{{ $index }}">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -116,7 +117,8 @@
                     <div class="gallery-item">
                         <img src="{{ asset('fe/img/gallery-2.jpg') }}" class="img-fluid w-100" alt="">
                         <div class="search-icon">
-                            <a href="{{ asset('fe/img/gallery-2.jpg') }}" data-lightbox="gallery-2" class="my-auto"><i
+                            <a href="{{ asset('fe/img/gallery-2.jpg') }}" data-lightbox="gallery-2"
+                                class="my-auto"><i
                                     class="fas fa-search-plus btn-hover-color bg-white text-primary p-3"></i></a>
                         </div>
                         <div class="gallery-content">
