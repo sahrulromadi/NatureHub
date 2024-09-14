@@ -107,7 +107,7 @@
                 <h1 class="mb-4">
                     <span>The</span>
                     <span
-                        style="font-size: 3rem; color: #2ecc71; font-weight: bold; text-decoration: underline; text-decoration-color: #2ecc71; text-decoration-thickness: 3px; text-decoration-style: wavy; margin-bottom: 1rem;">
+                        style="font-size: 3rem; color: #9eeb9e; font-weight: bold; text-decoration: underline; text-decoration-color: #9eeb9e; text-decoration-thickness: 3px; text-decoration-style: wavy; margin-bottom: 1rem;">
                         EARTH
                     </span>
                     <span>is in</span>
@@ -252,8 +252,7 @@
                                         <p class="mb-4">{!! Str::limit($article->body, 100) !!}</p>
                                         <a class="btn-hover-bg btn btn-primary text-white py-2 px-4"
                                             href="{{ route('articles.show', $article->slug) }}"
-                                            wire:navigate.hover>Read
-                                            More</a>
+                                            wire:navigate.hover>Read More</a>
                                     </div>
                                 </div>
                             </div>

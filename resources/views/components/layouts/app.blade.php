@@ -43,7 +43,7 @@
                         <div class="col-md-8">
                             <div class="topbar-info d-flex flex-wrap">
                                 <a href="#" class="text-light me-4"><i
-                                        class="fas fa-envelope text-white me-2"></i>Example@gmail.com</a>
+                                        class="fas fa-envelope text-white me-2"></i>srg18@gmail.com</a>
                                 <a href="#" class="text-light"><i
                                         class="fas fa-phone-alt text-white me-2"></i>+62</a>
                             </div>

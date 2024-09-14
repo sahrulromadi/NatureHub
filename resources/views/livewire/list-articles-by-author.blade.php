@@ -52,11 +52,11 @@
                                     <div class="donation-content d-flex flex-column">
                                         <h5 class="text-uppercase text-primary mb-4">
                                             {{ $article->created_at->format('M j, Y') }}</h5>
-                                        <a href="#"
+                                        <a href="{{ route('articles.show', $article->slug) }}"
                                             class="btn-hover-color display-6 text-white">{{ Str::limit($article->title, 25) }}</a>
                                         <h4 class="text-white mb-4">
                                             <a href="{{ route('articles.author', $article->author->name) }}"
-                                                class="text-white text-decoration-none" wire:navigate.hover>
+                                                class="text-white text-decoration-none btn-hover-color" wire:navigate.hover>
                                                 {{ $article->author->name }}
                                             </a>
                                         </h4>

@@ -60,7 +60,7 @@
                     <!-- Recommended Articles Section -->
                     <div class="card shadow-sm border-light">
                         <div class="card-header text-center bg-primary text-white">
-                            <h5 class="mb-0">Recommended Articles</h5>
+                            <h5 class="mb-0 text-light">Recommended Articles</h5>
                         </div>
                         <div class="card-body">
                             @foreach ($recommendedArticles as $recommended)
