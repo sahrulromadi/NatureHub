@@ -107,7 +107,7 @@
                 <h1 class="mb-4">
                     <span>The</span>
                     <span
-                        style="font-size: 3rem; color: #9eeb9e; font-weight: bold; text-decoration: underline; text-decoration-color: #9eeb9e; text-decoration-thickness: 3px; text-decoration-style: wavy; margin-bottom: 1rem;">
+                        style="font-size: 3rem; color: #9eeb9e; font-weight: bold; text-decoration: underline; text-decoration-color: rgba(94, 156, 94, 0.5); text-decoration-thickness: 3px; text-decoration-style: wavy; margin-bottom: 1rem;">
                         EARTH
                     </span>
                     <span>is in</span>
