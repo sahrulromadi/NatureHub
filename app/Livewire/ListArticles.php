@@ -16,10 +16,14 @@ class ListArticles extends Component
     public function render()
     {
         $articles = Article::where('status', 'Published')
-            ->where(function ($query) {
-                $query->where('title', 'like', '%' . $this->search . '%')
-                    ->orWhere('body', 'like', '%' . $this->search . '%');
-            })
+            ->whereAny(
+                [
+                    'title',
+                    'body'
+                ],
+                'LIKE',
+                "%{$this->search}%"
+            )
             ->orderByDesc('created_at')
             ->paginate(6);
 

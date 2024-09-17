@@ -81,7 +81,8 @@
                             <h4 class="alert-heading">No Articles Found</h4>
                             <p class="mb-0">We couldn't find any articles.</p>
                         </div>
-                        <a href="{{ route('home') }}" class="btn btn-primary" wire:navigate.hover>Back To Home</a>
+                        <a href="{{ route('home') }}" class="btn btn-primary text-light btn-hover-bg"
+                            wire:navigate.hover>Back To Home</a>
                     </div>
                 @endif
             </div>
